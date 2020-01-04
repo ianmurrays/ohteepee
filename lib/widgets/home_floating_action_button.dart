@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:ohteepee/screens/camera.dart';
+import 'package:ohteepee/screens/manual.dart';
 
 class HomeFloatingActionButton extends StatelessWidget {
   const HomeFloatingActionButton({
@@ -14,14 +16,23 @@ class HomeFloatingActionButton extends StatelessWidget {
         SpeedDialChild(
           child: Icon(Icons.camera_alt),
           label: 'Scan QR',
-          onTap: () => print('camera')
+          onTap: () => _openModal(context, Camera())
         ),
         SpeedDialChild(
           child: Icon(Icons.edit),
           label: 'Manual Input',
-          onTap: () => _manualInputPressed(context)
+          onTap: () => _openModal(context, Manual())
         ),
       ],
     );
+  }
+
+  void _openModal(BuildContext context, Widget page) {
+    MaterialPageRoute route = MaterialPageRoute(
+      builder: (context) => page,
+      fullscreenDialog: true
+    );
+
+    Navigator.of(context).push(route);
   }
 }
