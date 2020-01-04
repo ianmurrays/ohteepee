@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:ohteepee/widgets/home_floating_action_button.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -20,11 +21,7 @@ class Home extends StatelessWidget {
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => print('add'),
-        splashColor: Colors.blueGrey,
-      ),
+      floatingActionButton: HomeFloatingActionButton(),
       body: ListView(
         children: <Widget>[
           _randomTile(),
