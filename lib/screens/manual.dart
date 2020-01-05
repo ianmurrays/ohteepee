@@ -11,6 +11,7 @@ class ManualState extends State<Manual> {
   final _formKey = GlobalKey<FormState>();
   final _accountFocusNode = FocusNode();
   final _secretFocusNode = FocusNode();
+  bool _formDirty = false;
 
   final Map<String, dynamic> formData = {
     'service': null,
@@ -31,11 +32,16 @@ class ManualState extends State<Manual> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.check),
-            onPressed: () => print('save'),
+            onPressed: _onSavePressed,
           ),
         ],
       ),
       body: Form(
+        onChanged: () {
+          setState(() {
+            _formDirty = true;
+          });
+        },
         key: _formKey,
         child: ListView(
           children: <Widget>[
@@ -51,10 +57,16 @@ class ManualState extends State<Manual> {
     );
   }
 
-  void _onClosePressed() async {
-    bool shouldClose = await _buildShowDialog(context);
+  void _onSavePressed() {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      print(formData);
+      Navigator.of(context).pop();
+    }
+  }
 
-    if (shouldClose) {
+  void _onClosePressed() async {
+    if (!_formDirty || await _buildShowDialog(context)) {
       Navigator.of(context).pop();
     }
   }
@@ -99,6 +111,7 @@ class ManualState extends State<Manual> {
           value: formData['timeBased'],
           onChanged: (bool value) {
             setState(() {
+              _formDirty = true;
               formData['timeBased'] = value;
             });
           },
