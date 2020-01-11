@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ohteepee/screens/home.dart';
+import 'package:ohteepee/storage/sqlite.dart';
+import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,7 +14,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: Home(),
+      home: Provider(
+        create: (_) async {
+          final sqlite = Sqlite();
+
+          await sqlite.setupDatabase();
+
+          return sqlite;
+        },
+        child: Home(),
+      ),
     );
   }
 }
