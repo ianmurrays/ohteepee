@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import './providers/global_timer.dart';
 import './providers/passwords.dart';
 import './screens/home.dart';
 
@@ -11,10 +12,13 @@ void main() {
 class OhTeePee extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_ctx) => Passwords(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<GlobalTimer>(create: (_ctx) => GlobalTimer()),
+        ChangeNotifierProvider<Passwords>(create: (_ctx) => Passwords()),
+      ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Oh Tee Pee',
         theme: ThemeData(
           primarySwatch: Colors.blueGrey,
         ),

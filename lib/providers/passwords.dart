@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../models/password.dart';
+import './password.dart';
 
 class Passwords with ChangeNotifier {
   final List<Password> _passwords = [
@@ -15,10 +15,42 @@ class Passwords with ChangeNotifier {
       id: 2,
       service: 'Amazon',
       account: 'test@example.com',
+      period: 300,
       secret: 'otmqr2r2y2hz6wpoybmw3jzzloc5v4vhsvundzkctbjh65lhbkypoanx',
     ),
     Password(
       id: 3,
+      service: 'HOTP',
+      account: 'test@example.com',
+      secret: 'kaof3kjfd6aeupiynis4fhb5vvkwp5a3sxepw3v432w4pvrbm3qbvpx3',
+      counter: 0,
+      algorithm: 'SHA1',
+      timeBased: false,
+    ),
+    Password(
+      id: 34,
+      service: 'Twitter',
+      account: 'test@example.com',
+      period: 120,
+      algorithm: 'SHA512',
+      secret: 'kaof3kjfd6aeupiynis4fhb5vvkwp5a3sxepw3v432w4pvrbm3qbvpx3',
+    ),
+    Password(
+      id: 35,
+      service: 'Twitter',
+      account: 'test@example.com',
+      period: 60,
+      secret: 'kaof3kjfd6aeupiynis4fhb5vvkwp5a3sxepw3v432w4pvrbm3qbvpx3',
+    ),
+    Password(
+      id: 36,
+      service: 'Twitter',
+      account: 'test@example.com',
+      period: 15,
+      secret: 'kaof3kjfd6aeupiynis4fhb5vvkwp5a3sxepw3v432w4pvrbm3qbvpx3',
+    ),
+    Password(
+      id: 37,
       service: 'Twitter',
       account: 'test@example.com',
       secret: 'kaof3kjfd6aeupiynis4fhb5vvkwp5a3sxepw3v432w4pvrbm3qbvpx3',

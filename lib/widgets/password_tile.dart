@@ -1,15 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../models/password.dart';
+import './circular_time_remaining_indicator.dart';
+import '../providers/global_timer.dart';
+import '../providers/password.dart';
 
-class PasswordTile extends StatelessWidget {
-  final Password password;
+class PasswordTile extends StatefulWidget {
+  @override
+  _PasswordTileState createState() => _PasswordTileState();
+}
 
-  PasswordTile(this.password);
+class _PasswordTileState extends State<PasswordTile> {
+  bool _hidden = true;
+
+  Widget _trailingWidget(Password password) {
+    if (_hidden) {
+      return null;
+    }
+
+    if (password.timeBased) {
+      return Consumer<GlobalTimer>(
+        builder: (_ctx, timer, _child) {
+          return CircularTimeRemainingIndicator(
+            period: password.period,
+            second: timer.date.minute * 60 + timer.date.second,
+          );
+        },
+      );
+    } else {
+      return IconButton(
+        icon: Icon(
+          Icons.refresh,
+          size: 30,
+        ),
+        onPressed: () {
+          password.increaseCounter();
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final password = Provider.of<Password>(context);
+
     return ListTile(
+      onTap: () {
+        setState(() {
+          _hidden = !_hidden;
+        });
+      },
       key: ValueKey(password.id),
       leading: Container(
         width: 48,
@@ -31,14 +71,26 @@ class PasswordTile extends StatelessWidget {
       title: Row(
         children: [
           Text(password.service),
-          SizedBox(width: 5,),
-          Text('(${password.account})', style: TextStyle(color: Colors.grey),),
+          SizedBox(
+            width: 5,
+          ),
+          Text(
+            '(${password.account})',
+            style: TextStyle(color: Colors.grey),
+          ),
         ],
       ),
-      subtitle: Text(
-        '123 456',
-        style: TextStyle(fontSize: 25),
-      ),
+      subtitle: _hidden
+          ? Text('••••••')
+          : Consumer<GlobalTimer>(
+              builder: (_ctx, timer, _child) {
+                return Text(
+                  password.generateOTP(),
+                  style: TextStyle(fontSize: 25),
+                );
+              },
+            ),
+      trailing: _trailingWidget(password),
     );
   }
 }
