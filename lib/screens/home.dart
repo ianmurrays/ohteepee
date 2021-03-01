@@ -1,8 +1,8 @@
-import 'dart:async';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:ohteepee/widgets/home_floating_action_button.dart';
+import 'package:provider/provider.dart';
+
+import '../widgets/passwords_list_view.dart';
+import '../widgets/home_floating_action_button.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -22,79 +22,7 @@ class Home extends StatelessWidget {
         ],
       ),
       floatingActionButton: HomeFloatingActionButton(),
-      body: ListView(
-        children: <Widget>[
-          _randomTile(),
-          _randomTile(),
-          _randomTile(),
-          _randomTile(),
-          _randomTile(),
-          _randomTile(),
-        ],
-      ),
+      body: PasswordsListView(),
     );
-  }
-
-  Widget _randomTile() {
-    return ListTile(
-      leading: Container(
-        width: 48,
-        height: 48,
-        decoration: BoxDecoration(
-          color: Colors.blueGrey,
-          shape: BoxShape.circle
-        ),
-        child: Center(
-          child: Text(
-            'G',
-            style: TextStyle(fontSize: 25, color: Colors.white)
-          )
-        ),
-      ),
-      title: Text('Google'),
-      subtitle: Text('email@gmail.com'),
-      trailing: TOTPNumber(),
-    );
-  }
-}
-
-class TOTPNumber extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return TOTPNumberState();
-  }
-}
-
-class TOTPNumberState extends State<TOTPNumber> {
-  int _value = 0;
-  String _calculatedValue = '000000';
-  Timer _timer;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _timer = Timer.periodic(Duration(seconds: 5), _timerCallback);
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(this._calculatedValue, style: TextStyle(fontSize: 35));
-  }
-
-  void _timerCallback(Timer timer) {
-    print('timer!!');
-    setState(() {
-      _value = Random().nextInt(1000000);
-
-      _calculatedValue = _value.toString().padLeft(6, '0');
-    });
   }
 }
