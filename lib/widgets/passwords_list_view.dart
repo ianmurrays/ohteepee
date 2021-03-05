@@ -12,8 +12,8 @@ class PasswordsListView extends StatelessWidget {
     return ListView.separated(
       itemCount: passwordsProvider.passwords.length,
       itemBuilder: (ctx, index) {
-        return ChangeNotifierProvider(
-          create: (_) => passwordsProvider.passwords[index],
+        return ChangeNotifierProvider.value(
+          value: passwordsProvider.passwords[index],
           child: PasswordTile(),
         );
       },

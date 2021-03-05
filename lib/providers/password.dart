@@ -1,9 +1,8 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:otp/otp.dart';
 
 class Password with ChangeNotifier {
-  final int id;
+  int id;
   String service;
   String account;
   String secret;
@@ -14,15 +13,15 @@ class Password with ChangeNotifier {
   int counter;
 
   Password({
-    @required this.id,
+    this.id,
     this.service,
-    @required this.account,
-    @required this.secret,
+    this.account,
+    this.secret,
     this.length = 6,
     this.period = 30,
     this.algorithm = 'SHA256',
     this.timeBased = true,
-    this.counter,
+    this.counter = 0,
   });
 
   String generateOTP() {

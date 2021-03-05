@@ -51,7 +51,31 @@ class Passwords with ChangeNotifier {
     ),
     Password(
       id: 37,
-      service: 'Twitter',
+      account: 'test@example.com',
+      secret: 'kaof3kjfd6aeupiynis4fhb5vvkwp5a3sxepw3v432w4pvrbm3qbvpx3',
+    ),
+    Password(
+      id: 112,
+      account: 'test@example.com',
+      secret: 'kaof3kjfd6aeupiynis4fhb5vvkwp5a3sxepw3v432w4pvrbm3qbvpx3',
+    ),
+    Password(
+      id: 113,
+      account: 'test@example.com',
+      secret: 'kaof3kjfd6aeupiynis4fhb5vvkwp5a3sxepw3v432w4pvrbm3qbvpx3',
+    ),
+    Password(
+      id: 114,
+      account: 'test@example.com',
+      secret: 'kaof3kjfd6aeupiynis4fhb5vvkwp5a3sxepw3v432w4pvrbm3qbvpx3',
+    ),
+    Password(
+      id: 115,
+      account: 'test@example.com',
+      secret: 'kaof3kjfd6aeupiynis4fhb5vvkwp5a3sxepw3v432w4pvrbm3qbvpx3',
+    ),
+    Password(
+      id: 116,
       account: 'test@example.com',
       secret: 'kaof3kjfd6aeupiynis4fhb5vvkwp5a3sxepw3v432w4pvrbm3qbvpx3',
     ),
@@ -59,5 +83,13 @@ class Passwords with ChangeNotifier {
 
   List<Password> get passwords {
     return [..._passwords];
+  }
+
+  void addPassword(password) {
+    password.id = DateTime.now().millisecondsSinceEpoch; // FIXME: temporary
+
+    _passwords.add(password);
+
+    notifyListeners();
   }
 }

@@ -50,7 +50,6 @@ class _PasswordTileState extends State<PasswordTile> {
           _hidden = !_hidden;
         });
       },
-      key: ValueKey(password.id),
       leading: Container(
         width: 48,
         height: 48,
@@ -60,7 +59,10 @@ class _PasswordTileState extends State<PasswordTile> {
         ),
         child: Center(
           child: Text(
-            password.service.substring(0, 1),
+            (password.service != null
+                    ? password.service.substring(0, 1)
+                    : password.account.substring(0, 1))
+                .toUpperCase(),
             style: TextStyle(
               fontSize: 25,
               color: Colors.white,
@@ -68,18 +70,7 @@ class _PasswordTileState extends State<PasswordTile> {
           ),
         ),
       ),
-      title: Row(
-        children: [
-          Text(password.service),
-          SizedBox(
-            width: 5,
-          ),
-          Text(
-            '(${password.account})',
-            style: TextStyle(color: Colors.grey),
-          ),
-        ],
-      ),
+      title: _title(password),
       subtitle: _hidden
           ? Text('••••••')
           : Consumer<GlobalTimer>(
@@ -92,5 +83,24 @@ class _PasswordTileState extends State<PasswordTile> {
             ),
       trailing: _trailingWidget(password),
     );
+  }
+
+  Widget _title(password) {
+    if (password.service != null) {
+      return Row(
+        children: [
+          Text(password.service),
+          SizedBox(
+            width: 5,
+          ),
+          Text(
+            '(${password.account})',
+            style: TextStyle(color: Colors.grey),
+          ),
+        ],
+      );
+    } else {
+      return Text(password.account);
+    }
   }
 }
