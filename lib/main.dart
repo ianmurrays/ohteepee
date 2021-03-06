@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 
+import './providers/home_screen.dart';
 import './providers/global_timer.dart';
 import './providers/passwords.dart';
 import './screens/home.dart';
@@ -43,6 +44,7 @@ class OhTeePee extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<HomeScreen>(create: (_ctx) => HomeScreen()),
         ChangeNotifierProvider<GlobalTimer>(create: (_ctx) => GlobalTimer()),
         ChangeNotifierProvider<Passwords>(create: (_ctx) => Passwords()),
       ],
@@ -50,6 +52,8 @@ class OhTeePee extends StatelessWidget {
         title: 'Oh Tee Pee',
         theme: ThemeData(
           primarySwatch: Colors.blueGrey,
+          accentColor: Colors.blueGrey[800],
+          selectedRowColor: Colors.blueGrey[50],
         ),
         home: Home(),
       ),
