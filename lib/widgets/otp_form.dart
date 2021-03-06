@@ -226,7 +226,7 @@ class _OTPFormState extends State<OTPForm> {
 
                     try {
                       base32.decodeAsHexString(value);
-                    } catch (e) {
+                    } on FormatException {
                       return 'This secret is not valid Base32';
                     }
 

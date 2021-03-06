@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import '../screens/camera.dart';
@@ -13,30 +14,41 @@ class HomeFloatingActionButton extends StatelessWidget {
       backgroundColor: Theme.of(context).primaryColor,
       children: <SpeedDialChild>[
         SpeedDialChild(
-          child: Icon(Icons.camera_alt),
-          label: 'Scan QR',
-          labelStyle: TextStyle(color: Colors.white),
-          labelBackgroundColor: Theme.of(context).primaryColor,
-          backgroundColor: Theme.of(context).primaryColor,
-          onTap: () => _openModal(context, Camera())
-        ),
+            child: Icon(Icons.camera_alt),
+            label: 'Scan QR',
+            labelStyle: TextStyle(color: Colors.white),
+            labelBackgroundColor: Theme.of(context).primaryColor,
+            backgroundColor: Theme.of(context).primaryColor,
+            onTap: () => _openCamera(
+                  context,
+                )),
         SpeedDialChild(
-          child: Icon(Icons.edit),
-          label: 'Manual Input',
-          labelStyle: TextStyle(color: Colors.white),
-          labelBackgroundColor: Theme.of(context).primaryColor,
-          backgroundColor: Theme.of(context).primaryColor,
-          onTap: () => _openModal(context, Manual())
-        ),
+            child: Icon(Icons.edit),
+            label: 'Manual Input',
+            labelStyle: TextStyle(color: Colors.white),
+            labelBackgroundColor: Theme.of(context).primaryColor,
+            backgroundColor: Theme.of(context).primaryColor,
+            onTap: () => _openManual(context)),
       ],
     );
   }
 
-  void _openModal(BuildContext context, Widget page) {
+  void _openCamera(BuildContext context) {
     MaterialPageRoute route = MaterialPageRoute(
-      builder: (context) => page,
-      fullscreenDialog: true
-    );
+        builder: (context) => Camera(), fullscreenDialog: true);
+
+    SystemChrome.setEnabledSystemUIOverlays([]);
+    Navigator.of(context).push(route).then((value) {
+      SystemChrome.setEnabledSystemUIOverlays([
+        SystemUiOverlay.top,
+        SystemUiOverlay.bottom,
+      ]);
+    });
+  }
+
+  void _openManual(BuildContext context) {
+    MaterialPageRoute route = MaterialPageRoute(
+        builder: (context) => Manual(), fullscreenDialog: true);
 
     Navigator.of(context).push(route);
   }
