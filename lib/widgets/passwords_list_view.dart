@@ -10,6 +10,9 @@ class PasswordsListView extends StatelessWidget {
     final passwordsProvider = Provider.of<Passwords>(context);
 
     return ListView.separated(
+      padding: EdgeInsets.only(
+        bottom: 72,
+      ),
       itemCount: passwordsProvider.passwords.length,
       itemBuilder: (ctx, index) {
         return ChangeNotifierProvider.value(
