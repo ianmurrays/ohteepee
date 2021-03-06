@@ -1,4 +1,4 @@
-package com.example.ohteepee
+package me.ianmurray.ohteepee
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
