@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../widgets/passwords_list_view.dart';
 import '../widgets/home_floating_action_button.dart';
