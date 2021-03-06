@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import './circular_time_remaining_indicator.dart';
@@ -35,9 +36,28 @@ class _PasswordTileState extends State<PasswordTile> {
         ),
         onPressed: () {
           password.increaseCounter();
+          _copyToClipboard(password);
         },
       );
     }
+  }
+
+  void _onTap(Password password) {
+    setState(() {
+      _hidden = !_hidden;
+    });
+
+    if (!_hidden) {
+      _copyToClipboard(password);
+    }
+  }
+
+  void _copyToClipboard(Password password) async {
+    await Clipboard.setData(ClipboardData(text: password.generateOTP()));
+
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text('Copied to clipboard!')));
   }
 
   @override
@@ -45,11 +65,7 @@ class _PasswordTileState extends State<PasswordTile> {
     final password = Provider.of<Password>(context);
 
     return ListTile(
-      onTap: () {
-        setState(() {
-          _hidden = !_hidden;
-        });
-      },
+      onTap: () => _onTap(password),
       leading: Container(
         width: 48,
         height: 48,
