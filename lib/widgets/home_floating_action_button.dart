@@ -14,18 +14,19 @@ class HomeFloatingActionButton extends StatelessWidget {
       backgroundColor: Theme.of(context).primaryColor,
       children: <SpeedDialChild>[
         SpeedDialChild(
-            child: Icon(Icons.camera_alt),
-            label: 'Scan QR',
-            labelStyle: TextStyle(color: Colors.white),
-            labelBackgroundColor: Theme.of(context).primaryColor,
-            backgroundColor: Theme.of(context).primaryColor,
-            onTap: () => _openCamera(
-                  context,
-                )),
+          child: const Icon(Icons.camera_alt),
+          label: 'Scan QR',
+          labelStyle: const TextStyle(color: Colors.white),
+          labelBackgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(context).primaryColor,
+          onTap: () => _openCamera(
+            context,
+          ),
+        ),
         SpeedDialChild(
-            child: Icon(Icons.edit),
+            child: const Icon(Icons.edit),
             label: 'Manual Input',
-            labelStyle: TextStyle(color: Colors.white),
+            labelStyle: const TextStyle(color: Colors.white),
             labelBackgroundColor: Theme.of(context).primaryColor,
             backgroundColor: Theme.of(context).primaryColor,
             onTap: () => _openManual(context)),

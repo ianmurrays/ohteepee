@@ -44,27 +44,27 @@ class _CameraState extends State<Camera> {
               ),
             ),
             Container(
-              margin: EdgeInsets.all(15),
+              margin: const EdgeInsets.all(15),
               alignment: Alignment.topCenter,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.close),
+                    icon: const Icon(Icons.close),
                     color: Colors.white,
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   IconButton(
-                    icon: Icon(Icons.flash_on),
+                    icon: const Icon(Icons.flash_on),
                     color: Colors.white,
                     onPressed: () {
                       _controller.toggleFlash();
                     },
                   ),
                   IconButton(
-                    icon: Icon(Icons.flip_camera_android),
+                    icon: const Icon(Icons.flip_camera_android),
                     color: Colors.white,
                     onPressed: () {
                       _controller.flipCamera();
@@ -111,14 +111,14 @@ class _CameraState extends State<Camera> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Invalid OTP QR Code'),
+            title: const Text('Invalid OTP QR Code'),
             content: Text(message),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );

@@ -12,7 +12,7 @@ class CircularTimeRemainingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      alignment: Alignment(0, 0),
+      alignment: const Alignment(0, 0),
       children: [
         CircularProgressIndicator(
           value: 1 - second % period / period,

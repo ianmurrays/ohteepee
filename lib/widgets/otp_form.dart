@@ -25,15 +25,15 @@ class _OTPFormState extends State<OTPForm> {
             labelText: 'Algorithm',
           ),
           items: [
-            DropdownMenuItem(
+            const DropdownMenuItem(
               child: Text('SHA1'),
               value: 'SHA1',
             ),
-            DropdownMenuItem(
+            const DropdownMenuItem(
               child: Text('SHA256'),
               value: 'SHA256',
             ),
-            DropdownMenuItem(
+            const DropdownMenuItem(
               child: Text('SHA512'),
               value: 'SHA512',
             ),
@@ -82,7 +82,7 @@ class _OTPFormState extends State<OTPForm> {
       ),
       _margin(
         child: SwitchListTile(
-          title: Text('Time-based'),
+          title: const Text('Time-based'),
           value: widget.model.timeBased,
           onChanged: (value) {
             setState(() {
@@ -94,7 +94,7 @@ class _OTPFormState extends State<OTPForm> {
       widget.model.timeBased
           ? _margin(
               child: TextFormField(
-                key: ValueKey('periodField'),
+                key: const ValueKey('periodField'),
                 decoration: _borderDecoration(
                   labelText: 'Period',
                 ),
@@ -129,7 +129,7 @@ class _OTPFormState extends State<OTPForm> {
             )
           : _margin(
               child: TextFormField(
-                key: ValueKey('counterField'),
+                key: const ValueKey('counterField'),
                 decoration: _borderDecoration(
                   labelText: 'Counter',
                 ),
@@ -165,11 +165,11 @@ class _OTPFormState extends State<OTPForm> {
         key: widget.formKey,
         autovalidateMode: AutovalidateMode.disabled,
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           child: Column(
             children: [
               _margin(
-                margin: EdgeInsets.only(
+                margin: const EdgeInsets.only(
                   top: 5,
                   bottom: 10,
                 ),
@@ -178,7 +178,7 @@ class _OTPFormState extends State<OTPForm> {
                     labelText: 'Service',
                     hintText: 'eg. Google',
                     helperText: 'Optional',
-                    prefixIcon: Icon(Icons.bubble_chart),
+                    prefixIcon: const Icon(Icons.bubble_chart),
                   ),
                   onChanged: (value) {
                     setState(() {
@@ -192,7 +192,7 @@ class _OTPFormState extends State<OTPForm> {
                   decoration: _borderDecoration(
                     labelText: 'Account',
                     hintText: 'robot@example.org',
-                    prefixIcon: Icon(Icons.person),
+                    prefixIcon: const Icon(Icons.person),
                   ),
                   onChanged: (value) {
                     setState(() {
@@ -212,7 +212,7 @@ class _OTPFormState extends State<OTPForm> {
                 child: TextFormField(
                   decoration: _borderDecoration(
                     labelText: 'Secret',
-                    prefixIcon: Icon(Icons.vpn_key),
+                    prefixIcon: const Icon(Icons.vpn_key),
                   ),
                   onChanged: (value) {
                     setState(() {
@@ -235,12 +235,12 @@ class _OTPFormState extends State<OTPForm> {
                 ),
               ),
               _margin(
-                margin: EdgeInsets.only(
+                margin: const EdgeInsets.only(
                   top: 5,
                   bottom: 10,
                 ),
                 child: ListTile(
-                  title: Text('Advanced'),
+                  title: const Text('Advanced'),
                   trailing: Icon(
                     _showAdvancedFields ? Icons.expand_more : Icons.expand_less,
                   ),
@@ -266,7 +266,7 @@ class _OTPFormState extends State<OTPForm> {
       hintText: hintText,
       helperText: helperText,
       prefixIcon: prefixIcon,
-      border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
+      border: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
     );
   }
 

@@ -10,20 +10,20 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Oh Tee Pee'),
-        actions: <Widget>[
+        title: const Text('Oh Tee Pee'),
+        actions: [
           if (Provider.of<HomeScreen>(context).selectedPasswords.length == 1)
             IconButton(
-              icon: Icon(Icons.edit),
+              icon: const Icon(Icons.edit),
               onPressed: () => print('edit'),
             ),
           if (Provider.of<HomeScreen>(context).selectedPasswords.length >= 1)
             IconButton(
-              icon: Icon(Icons.delete),
+              icon: const Icon(Icons.delete),
               onPressed: () => print('delete'),
             ),
           IconButton(
-            icon: Icon(Icons.settings),
+            icon: const Icon(Icons.settings),
             onPressed: () => print('settings'),
           ),
         ],

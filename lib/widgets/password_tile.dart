@@ -20,7 +20,7 @@ class PasswordTile extends StatelessWidget {
       );
     } else {
       return IconButton(
-        icon: Icon(
+        icon: const Icon(
           Icons.refresh,
           size: 30,
         ),
@@ -77,7 +77,7 @@ class PasswordTile extends StatelessWidget {
         ),
         child: Center(
           child: selected
-              ? Icon(
+              ? const Icon(
                   Icons.check,
                   color: Colors.white,
                 )
@@ -86,9 +86,9 @@ class PasswordTile extends StatelessWidget {
                           ? password.service.substring(0, 1)
                           : password.account.substring(0, 1))
                       .toUpperCase(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 25,
-                    color: Colors.white,
+                    color: Colors.white, // FIXME: should use theme
                   ),
                 ),
         ),
@@ -103,7 +103,7 @@ class PasswordTile extends StatelessWidget {
                 );
               },
             )
-          : Text('••••••'),
+          : const Text('••••••'),
       trailing: shown ? _trailingWidget(context, password) : null,
     );
   }
@@ -113,12 +113,12 @@ class PasswordTile extends StatelessWidget {
       return Row(
         children: [
           Text(password.service),
-          SizedBox(
+           const SizedBox(
             width: 5,
           ),
           Text(
             '(${password.account})',
-            style: TextStyle(color: Colors.grey),
+            style: const TextStyle(color: Colors.grey), // FIXME: Theme
           ),
         ],
       );

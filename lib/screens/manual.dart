@@ -14,15 +14,15 @@ class Manual extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.close),
+          icon: const Icon(Icons.close),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-        title: Text('Add OTP'),
+        title: const Text('Add OTP'),
         actions: [
           IconButton(
-            icon: Icon(Icons.check),
+            icon: const Icon(Icons.check),
             onPressed: () {
               if (_formKey.currentState.validate()) {
                 Provider.of<Passwords>(context, listen: false)

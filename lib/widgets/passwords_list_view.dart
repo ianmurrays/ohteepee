@@ -10,7 +10,7 @@ class PasswordsListView extends StatelessWidget {
     final passwordsProvider = Provider.of<Passwords>(context);
 
     return ListView.separated(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         bottom: 72,
       ),
       itemCount: passwordsProvider.passwords.length,
@@ -20,7 +20,7 @@ class PasswordsListView extends StatelessWidget {
           child: PasswordTile(),
         );
       },
-      separatorBuilder: (_ctx, index) => Divider(
+      separatorBuilder: (_ctx, index) => const Divider(
         height: 1,
       ),
     );
