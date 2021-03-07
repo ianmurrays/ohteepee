@@ -12,6 +12,8 @@ class HomeFloatingActionButton extends StatelessWidget {
       icon: Icons.add,
       activeIcon: Icons.remove,
       backgroundColor: Theme.of(context).primaryColor,
+      animationSpeed: 150,
+      overlayOpacity: 0.95,
       children: <SpeedDialChild>[
         SpeedDialChild(
           child: const Icon(Icons.camera_alt),
