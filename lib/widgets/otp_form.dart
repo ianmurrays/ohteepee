@@ -174,6 +174,7 @@ class _OTPFormState extends State<OTPForm> {
                   bottom: 10,
                 ),
                 child: TextFormField(
+                  initialValue: widget.model.service,
                   decoration: _borderDecoration(
                     labelText: 'Service',
                     hintText: 'eg. Google',
@@ -189,6 +190,7 @@ class _OTPFormState extends State<OTPForm> {
               ),
               _margin(
                 child: TextFormField(
+                  initialValue: widget.model.account,
                   decoration: _borderDecoration(
                     labelText: 'Account',
                     hintText: 'robot@example.org',
@@ -210,6 +212,7 @@ class _OTPFormState extends State<OTPForm> {
               ),
               _margin(
                 child: TextFormField(
+                  initialValue: widget.model.secret,
                   decoration: _borderDecoration(
                     labelText: 'Secret',
                     prefixIcon: const Icon(Icons.vpn_key),

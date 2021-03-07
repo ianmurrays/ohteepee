@@ -85,10 +85,22 @@ class Passwords with ChangeNotifier {
     return [..._passwords];
   }
 
-  void addPassword(password) {
-    password.id = DateTime.now().millisecondsSinceEpoch; // FIXME: temporary
+  Password findById(int id) {
+    return _passwords.firstWhere((element) => element.id == id);
+  }
 
-    _passwords.add(password);
+  void savePassword(Password password) {
+    var existingIndex = _passwords.indexWhere((item) => item.id == password.id);
+
+    if (existingIndex != -1) {
+      print('exists');
+      _passwords.replaceRange(existingIndex, existingIndex + 1, [password]);
+    } else {
+      print('new');
+      password.id = DateTime.now().millisecondsSinceEpoch; // FIXME: temporary
+
+      _passwords.add(password);
+    }
 
     notifyListeners();
   }

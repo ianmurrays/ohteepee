@@ -2,36 +2,36 @@ import 'package:flutter/foundation.dart';
 import './password.dart';
 
 class HomeScreen with ChangeNotifier {
-  Set<Password> _selectedPasswords = Set();
-  Set<Password> _shownPasswords = Set();
+  Set<int> _selectedPasswordIds = Set();
+  Set<int> _shownPasswordIds = Set();
 
-  Set<Password> get selectedPasswords {
-    return Set.from(_selectedPasswords);
+  Set<int> get selectedPasswords {
+    return Set.from(_selectedPasswordIds);
   }
 
-  Set<Password> get shownPasswords {
-    return Set.from(_shownPasswords);
+  Set<int> get shownPasswords {
+    return Set.from(_shownPasswordIds);
   }
 
   void togglePassword(Password password) {
-    if (_selectedPasswords.contains(password)) {
-      _selectedPasswords.remove(password);
+    if (_selectedPasswordIds.contains(password.id)) {
+      _selectedPasswordIds.remove(password.id);
     } else {
-      _selectedPasswords.add(password);
+      _selectedPasswordIds.add(password.id);
     }
 
     notifyListeners();
   }
 
   bool toggleShowPassword(Password password) {
-    if (_shownPasswords.contains(password)) {
-      _shownPasswords.remove(password);
+    if (_shownPasswordIds.contains(password.id)) {
+      _shownPasswordIds.remove(password.id);
     } else {
-      _shownPasswords.add(password);
+      _shownPasswordIds.add(password.id);
     }
 
     notifyListeners();
 
-    return _shownPasswords.contains(password);
+    return _shownPasswordIds.contains(password.id);
   }
 }

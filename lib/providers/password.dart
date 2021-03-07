@@ -45,6 +45,18 @@ class Password with ChangeNotifier {
     this.counter = 0,
   });
 
+  Password.from(Password password) {
+    id = password.id;
+    service = password.service;
+    account = password.account;
+    secret = password.secret;
+    length = password.length;
+    period = password.period;
+    algorithm = password.algorithm;
+    timeBased = password.timeBased;
+    counter = password.counter;
+  }
+
   Password.fromUri(String uri) {
     final parsed = Uri.parse(uri);
 

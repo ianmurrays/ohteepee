@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:provider/provider.dart';
@@ -96,7 +95,7 @@ class _CameraState extends State<Camera> {
 
         password.id = DateTime.now().millisecondsSinceEpoch; // FIXME
 
-        Provider.of<Passwords>(context, listen: false).addPassword(password);
+        Provider.of<Passwords>(context, listen: false).savePassword(password);
         Navigator.of(context).pop();
       } on InvalidOTPUriException catch (e) {
         _showDialog(e.message);

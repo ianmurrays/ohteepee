@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ohteepee/providers/home_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/passwords.dart';
@@ -8,7 +9,17 @@ import '../widgets/otp_form.dart';
 class Manual extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final model = Password();
+    Password model;
+    final passwords =
+        Provider.of<HomeScreen>(context, listen: false).selectedPasswords;
+    final passwordsProvider = Provider.of<Passwords>(context, listen: false);
+
+    if (passwords.length == 1) {
+      model = Password.from(passwordsProvider.findById(passwords.first));
+    } else {
+      model = Password();
+    }
+
     final _formKey = GlobalKey<FormState>();
 
     return Scaffold(
@@ -19,14 +30,16 @@ class Manual extends StatelessWidget {
             Navigator.of(context).pop();
           },
         ),
-        title: const Text('Add OTP'),
+        title: passwords.length == 1
+            ? const Text('Edit OTP')
+            : const Text('Add OTP'),
         actions: [
           IconButton(
             icon: const Icon(Icons.check),
             onPressed: () {
               if (_formKey.currentState.validate()) {
-                Provider.of<Passwords>(context, listen: false)
-                    .addPassword(model);
+                // FIXME: need to update the password somehow
+                passwordsProvider.savePassword(model);
 
                 Navigator.of(context).pop();
               }
