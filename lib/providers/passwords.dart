@@ -104,4 +104,10 @@ class Passwords with ChangeNotifier {
 
     notifyListeners();
   }
+
+  void deletePasswords(List<int> ids) {
+    _passwords.removeWhere((element) => ids.contains(element.id));
+
+    notifyListeners();
+  }
 }

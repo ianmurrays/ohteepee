@@ -11,7 +11,7 @@ class Manual extends StatelessWidget {
   Widget build(BuildContext context) {
     Password model;
     final passwords =
-        Provider.of<HomeScreen>(context, listen: false).selectedPasswords;
+        Provider.of<HomeScreen>(context, listen: false).selectedPasswordIds;
     final passwordsProvider = Provider.of<Passwords>(context, listen: false);
 
     if (passwords.length == 1) {

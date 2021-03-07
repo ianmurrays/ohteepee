@@ -44,9 +44,9 @@ class PasswordTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final password = Provider.of<Password>(context);
     final homeScreen = Provider.of<HomeScreen>(context);
-    final selected = homeScreen.selectedPasswords.contains(password.id);
-    final anySelected = homeScreen.selectedPasswords.length >= 1;
-    final shown = homeScreen.shownPasswords.contains(password.id);
+    final selected = homeScreen.selectedPasswordIds.contains(password.id);
+    final anySelected = homeScreen.selectedPasswordIds.length >= 1;
+    final shown = homeScreen.shownPasswordIds.contains(password.id);
 
     return ListTile(
       onTap: () {
