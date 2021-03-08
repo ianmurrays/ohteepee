@@ -12,6 +12,7 @@ class HomeFloatingActionButton extends StatelessWidget {
       icon: Icons.add,
       activeIcon: Icons.remove,
       backgroundColor: Theme.of(context).primaryColor,
+      foregroundColor: Colors.white,
       animationSpeed: 150,
       overlayOpacity: 0.95,
       children: <SpeedDialChild>[
@@ -21,6 +22,7 @@ class HomeFloatingActionButton extends StatelessWidget {
           labelStyle: const TextStyle(color: Colors.white),
           labelBackgroundColor: Theme.of(context).primaryColor,
           backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Colors.white,
           onTap: () => _openCamera(
             context,
           ),
@@ -31,6 +33,7 @@ class HomeFloatingActionButton extends StatelessWidget {
             labelStyle: const TextStyle(color: Colors.white),
             labelBackgroundColor: Theme.of(context).primaryColor,
             backgroundColor: Theme.of(context).primaryColor,
+            foregroundColor: Colors.white,
             onTap: () => _openManual(context)),
       ],
     );

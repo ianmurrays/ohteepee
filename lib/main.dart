@@ -54,6 +54,63 @@ class OhTeePee extends StatelessWidget {
           primarySwatch: Colors.blueGrey,
           accentColor: Colors.blueGrey[800],
           selectedRowColor: Colors.blueGrey[50],
+          inputDecorationTheme: InputDecorationTheme(
+            labelStyle: TextStyle(
+              color: Colors.blueGrey[800],
+            ),
+            helperStyle: TextStyle(
+              color: Colors.blueGrey[800],
+            ),
+            hintStyle: TextStyle(
+              color: Colors.blueGrey[800],
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                width: 1,
+                color: Colors.blueGrey[800],
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                width: 1,
+                color: Colors.blueGrey[800],
+              ),
+            ),
+          ),
+        ),
+        darkTheme: ThemeData(
+          primarySwatch: Colors.blueGrey,
+          backgroundColor: Colors.grey[850],
+          dialogBackgroundColor: Colors.grey[850],
+          scaffoldBackgroundColor: Colors.grey[850],
+          textTheme: ThemeData.dark().textTheme,
+          accentColor: Colors.blueGrey[300],
+          selectedRowColor: Colors.grey[900],
+          hintColor: Colors.white,
+          canvasColor: Colors.grey[850],
+          inputDecorationTheme: InputDecorationTheme(
+            labelStyle: TextStyle(
+              color: Colors.grey[300],
+            ),
+            helperStyle: TextStyle(
+              color: Colors.grey[300],
+            ),
+            hintStyle: TextStyle(
+              color: Colors.grey[300],
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                width: 1,
+                color: Colors.grey[300],
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                width: 1,
+                color: Colors.grey[300],
+              ),
+            ),
+          ),
         ),
         home: Home(),
       ),

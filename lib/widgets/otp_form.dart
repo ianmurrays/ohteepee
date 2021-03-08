@@ -180,7 +180,11 @@ class _OTPFormState extends State<OTPForm> {
                     labelText: 'Service',
                     hintText: 'eg. Google',
                     helperText: 'Optional',
-                    prefixIcon: const Icon(Icons.bubble_chart),
+                    prefixIcon: Icon(Icons.bubble_chart,
+                        color: Theme.of(context)
+                            .inputDecorationTheme
+                            .labelStyle
+                            .color),
                   ),
                   onChanged: (value) {
                     setState(() {
@@ -195,7 +199,11 @@ class _OTPFormState extends State<OTPForm> {
                   decoration: _borderDecoration(
                     labelText: 'Account',
                     hintText: 'robot@example.org',
-                    prefixIcon: const Icon(Icons.person),
+                    prefixIcon: Icon(Icons.person,
+                        color: Theme.of(context)
+                            .inputDecorationTheme
+                            .labelStyle
+                            .color),
                   ),
                   onChanged: (value) {
                     setState(() {
@@ -217,7 +225,11 @@ class _OTPFormState extends State<OTPForm> {
                   keyboardType: TextInputType.visiblePassword,
                   decoration: _borderDecoration(
                     labelText: 'Secret',
-                    prefixIcon: const Icon(Icons.vpn_key),
+                    prefixIcon: Icon(Icons.vpn_key,
+                        color: Theme.of(context)
+                            .inputDecorationTheme
+                            .labelStyle
+                            .color),
                   ),
                   onChanged: (value) {
                     setState(() {
@@ -248,6 +260,7 @@ class _OTPFormState extends State<OTPForm> {
                   title: const Text('Advanced'),
                   trailing: Icon(
                     _showAdvancedFields ? Icons.expand_more : Icons.expand_less,
+                    color: Theme.of(context).textTheme.bodyText1.color,
                   ),
                   onTap: () {
                     setState(() {
@@ -271,7 +284,6 @@ class _OTPFormState extends State<OTPForm> {
       hintText: hintText,
       helperText: helperText,
       prefixIcon: prefixIcon,
-      border: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
     );
   }
 
