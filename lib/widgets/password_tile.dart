@@ -22,9 +22,10 @@ class PasswordTile extends StatelessWidget {
       );
     } else {
       return IconButton(
-        icon: const Icon(
+        icon: Icon(
           Icons.refresh,
           size: 30,
+          color: Theme.of(context).textTheme.bodyText1.color,
         ),
         onPressed: () async {
           await password.increaseCounter(
