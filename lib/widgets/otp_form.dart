@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:base32/base32.dart';
 
-import '../providers/password.dart';
+import '../storage/database.dart';
+import '../storage/password_model.dart';
 
 class OTPForm extends StatefulWidget {
   final formKey;
-  final Password model;
+  final PasswordModel model;
 
   OTPForm({Key key, this.formKey, this.model}) : super(key: key);
 
@@ -27,15 +28,15 @@ class _OTPFormState extends State<OTPForm> {
           items: [
             const DropdownMenuItem(
               child: Text('SHA1'),
-              value: 'SHA1',
+              value: Algorithm.SHA1,
             ),
             const DropdownMenuItem(
               child: Text('SHA256'),
-              value: 'SHA256',
+              value: Algorithm.SHA256,
             ),
             const DropdownMenuItem(
               child: Text('SHA512'),
-              value: 'SHA512',
+              value: Algorithm.SHA512,
             ),
           ],
           value: widget.model.algorithm,

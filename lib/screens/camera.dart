@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/password.dart';
-import '../providers/passwords.dart';
+import '../storage/database.dart';
+import '../storage/password_model.dart';
 
 class Camera extends StatefulWidget {
   @override
@@ -88,14 +88,15 @@ class _CameraState extends State<Camera> {
       }
 
       try {
-        final password = Password.fromUri(scanData.code);
+        final password = PasswordModel.fromUri(scanData.code);
 
         _keepUpdating = false;
         _controller.stopCamera();
 
-        password.id = DateTime.now().millisecondsSinceEpoch; // FIXME
+        Provider.of<Database>(context, listen: false)
+            .passwordDao
+            .insertPassword(password.toCompanion());
 
-        Provider.of<Passwords>(context, listen: false).savePassword(password);
         Navigator.of(context).pop();
       } on InvalidOTPUriException catch (e) {
         _showDialog(e.message);

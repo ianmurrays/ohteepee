@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../storage/database.dart';
+import '../storage/password_model.dart';
 import '../providers/home_screen.dart';
-import '../providers/passwords.dart';
 import '../widgets/passwords_list_view.dart';
 import '../widgets/home_floating_action_button.dart';
 import '../screens/manual.dart';
@@ -19,9 +20,24 @@ class Home extends StatelessWidget {
           if (homeScreen.selectedPasswordIds.length == 1)
             IconButton(
               icon: const Icon(Icons.edit),
-              onPressed: () {
+              onPressed: () async {
+                final passwordIds =
+                    Provider.of<HomeScreen>(context, listen: false)
+                        .selectedPasswordIds;
+
+                if (passwordIds.length != 1) {
+                  return;
+                }
+
+                // Edit
+                final model = PasswordModel.fromDb(
+                    await Provider.of<Database>(context, listen: false)
+                        .passwordDao
+                        .findById(passwordIds.first));
+
                 MaterialPageRoute route = MaterialPageRoute(
-                    builder: (context) => Manual(), fullscreenDialog: true);
+                    builder: (context) => Manual(model: model),
+                    fullscreenDialog: true);
 
                 Navigator.of(context).push(route);
               },
@@ -58,8 +74,9 @@ class Home extends StatelessWidget {
 
                 final passwordIds = homeScreen.selectedPasswordIds;
 
-                Provider.of<Passwords>(context, listen: false)
-                    .deletePasswords(passwordIds.toList());
+                await Provider.of<Database>(context, listen: false)
+                    .passwordDao
+                    .deletePasswordIds(passwordIds.toList());
 
                 homeScreen.reset();
               },

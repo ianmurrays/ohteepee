@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ohteepee/providers/home_screen.dart';
 import 'package:provider/provider.dart';
 
-import './circular_time_remaining_indicator.dart';
+import '../providers/home_screen.dart';
 import '../providers/global_timer.dart';
-import '../providers/password.dart';
+import './circular_time_remaining_indicator.dart';
+import '../storage/database.dart';
+import '../storage/password_model.dart';
+// import '../storage/password_utils.dart';
 
 class PasswordTile extends StatelessWidget {
-  Widget _trailingWidget(BuildContext context, Password password) {
+  Widget _trailingWidget(BuildContext context, PasswordModel password) {
     if (password.timeBased) {
       return Consumer<GlobalTimer>(
         builder: (_ctx, timer, _child) {
@@ -24,15 +26,17 @@ class PasswordTile extends StatelessWidget {
           Icons.refresh,
           size: 30,
         ),
-        onPressed: () {
-          password.increaseCounter();
+        onPressed: () async {
+          await password.increaseCounter(
+              Provider.of<Database>(context, listen: false).passwordDao);
+
           _copyToClipboard(context, password);
         },
       );
     }
   }
 
-  void _copyToClipboard(BuildContext context, Password password) async {
+  void _copyToClipboard(BuildContext context, PasswordModel password) async {
     await Clipboard.setData(ClipboardData(text: password.generateOTP()));
 
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -42,7 +46,7 @@ class PasswordTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final password = Provider.of<Password>(context);
+    final password = Provider.of<PasswordModel>(context);
     final homeScreen = Provider.of<HomeScreen>(context);
     final selected = homeScreen.selectedPasswordIds.contains(password.id);
     final anySelected = homeScreen.selectedPasswordIds.length >= 1;
@@ -113,7 +117,7 @@ class PasswordTile extends StatelessWidget {
       return Row(
         children: [
           Text(password.service),
-           const SizedBox(
+          const SizedBox(
             width: 5,
           ),
           Text(

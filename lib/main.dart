@@ -4,7 +4,7 @@ import 'package:flutter_displaymode/flutter_displaymode.dart';
 
 import './providers/home_screen.dart';
 import './providers/global_timer.dart';
-import './providers/passwords.dart';
+import './storage/database.dart';
 import './screens/home.dart';
 
 void main() async {
@@ -46,7 +46,10 @@ class OhTeePee extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<HomeScreen>(create: (_ctx) => HomeScreen()),
         ChangeNotifierProvider<GlobalTimer>(create: (_ctx) => GlobalTimer()),
-        ChangeNotifierProvider<Passwords>(create: (_ctx) => Passwords()),
+        Provider(
+          create: (_ctx) => Database(),
+          dispose: (_ctx, Database db) => db.close(),
+        ),
       ],
       child: MaterialApp(
         title: 'Oh Tee Pee',

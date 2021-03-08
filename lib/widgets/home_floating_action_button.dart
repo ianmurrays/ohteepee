@@ -4,6 +4,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import '../screens/camera.dart';
 import '../screens/manual.dart';
+import '../storage/password_model.dart';
 
 class HomeFloatingActionButton extends StatelessWidget {
   @override
@@ -54,7 +55,8 @@ class HomeFloatingActionButton extends StatelessWidget {
 
   void _openManual(BuildContext context) {
     MaterialPageRoute route = MaterialPageRoute(
-        builder: (context) => Manual(), fullscreenDialog: true);
+        builder: (context) => Manual(model: PasswordModel()),
+        fullscreenDialog: true);
 
     Navigator.of(context).push(route);
   }

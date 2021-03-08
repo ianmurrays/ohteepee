@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
-import './password.dart';
+
+import '../storage/password_model.dart';
+import '../storage/database.dart';
 
 class HomeScreen with ChangeNotifier {
   Set<int> _selectedPasswordIds = Set();
@@ -13,7 +15,7 @@ class HomeScreen with ChangeNotifier {
     return Set.from(_shownPasswordIds);
   }
 
-  void togglePassword(Password password) {
+  void togglePassword(PasswordModel password) {
     if (_selectedPasswordIds.contains(password.id)) {
       _selectedPasswordIds.remove(password.id);
     } else {
@@ -23,7 +25,7 @@ class HomeScreen with ChangeNotifier {
     notifyListeners();
   }
 
-  bool toggleShowPassword(Password password) {
+  bool toggleShowPassword(PasswordModel password) {
     if (_shownPasswordIds.contains(password.id)) {
       _shownPasswordIds.remove(password.id);
     } else {

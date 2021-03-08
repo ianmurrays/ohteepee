@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:ohteepee/providers/home_screen.dart';
+import 'package:moor/moor.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/passwords.dart';
-import '../providers/password.dart';
+import '../providers/home_screen.dart';
+import '../storage/database.dart';
+import '../storage/password_model.dart';
 import '../widgets/otp_form.dart';
 
-class Manual extends StatelessWidget {
+class Manual extends StatefulWidget {
+  final PasswordModel model;
+
+  Manual({this.model});
+
+  @override
+  _ManualState createState() => _ManualState();
+}
+
+class _ManualState extends State<Manual> {
   @override
   Widget build(BuildContext context) {
-    Password model;
-    final passwords =
-        Provider.of<HomeScreen>(context, listen: false).selectedPasswordIds;
-    final passwordsProvider = Provider.of<Passwords>(context, listen: false);
-
-    if (passwords.length == 1) {
-      model = Password.from(passwordsProvider.findById(passwords.first));
-    } else {
-      model = Password();
-    }
-
     final _formKey = GlobalKey<FormState>();
 
     return Scaffold(
@@ -30,16 +29,21 @@ class Manual extends StatelessWidget {
             Navigator.of(context).pop();
           },
         ),
-        title: passwords.length == 1
-            ? const Text('Edit OTP')
-            : const Text('Add OTP'),
+        title:
+            widget.model.isNew ? const Text('Add OTP') : const Text('Edit OTP'),
         actions: [
           IconButton(
             icon: const Icon(Icons.check),
-            onPressed: () {
+            onPressed: () async {
               if (_formKey.currentState.validate()) {
-                // FIXME: need to update the password somehow
-                passwordsProvider.savePassword(model);
+                final db = Provider.of<Database>(context, listen: false);
+
+                if (widget.model.isNew) {
+                  await db.passwordDao
+                      .insertPassword(widget.model.toCompanion());
+                } else {
+                  await db.passwordDao.updatePassword(widget.model.toDbModel());
+                }
 
                 Navigator.of(context).pop();
               }
@@ -48,7 +52,7 @@ class Manual extends StatelessWidget {
         ],
       ),
       body: OTPForm(
-        model: model,
+        model: widget.model,
         formKey: _formKey,
       ),
     );
