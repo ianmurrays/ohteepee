@@ -11,7 +11,6 @@ class Password extends DataClass implements Insertable<Password> {
   final int id;
   final String service;
   final String account;
-  final String secret;
   final int length;
   final int period;
   final Algorithm algorithm;
@@ -21,7 +20,6 @@ class Password extends DataClass implements Insertable<Password> {
       {@required this.id,
       this.service,
       @required this.account,
-      @required this.secret,
       this.length,
       this.period,
       @required this.algorithm,
@@ -39,8 +37,6 @@ class Password extends DataClass implements Insertable<Password> {
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}service']),
       account:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}account']),
-      secret:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}secret']),
       length: intType.mapFromDatabaseResponse(data['${effectivePrefix}length']),
       period: intType.mapFromDatabaseResponse(data['${effectivePrefix}period']),
       algorithm: $PasswordsTable.$converter0.mapToDart(
@@ -62,9 +58,6 @@ class Password extends DataClass implements Insertable<Password> {
     }
     if (!nullToAbsent || account != null) {
       map['account'] = Variable<String>(account);
-    }
-    if (!nullToAbsent || secret != null) {
-      map['secret'] = Variable<String>(secret);
     }
     if (!nullToAbsent || length != null) {
       map['length'] = Variable<int>(length);
@@ -94,8 +87,6 @@ class Password extends DataClass implements Insertable<Password> {
       account: account == null && nullToAbsent
           ? const Value.absent()
           : Value(account),
-      secret:
-          secret == null && nullToAbsent ? const Value.absent() : Value(secret),
       length:
           length == null && nullToAbsent ? const Value.absent() : Value(length),
       period:
@@ -119,7 +110,6 @@ class Password extends DataClass implements Insertable<Password> {
       id: serializer.fromJson<int>(json['id']),
       service: serializer.fromJson<String>(json['service']),
       account: serializer.fromJson<String>(json['account']),
-      secret: serializer.fromJson<String>(json['secret']),
       length: serializer.fromJson<int>(json['length']),
       period: serializer.fromJson<int>(json['period']),
       algorithm: serializer.fromJson<Algorithm>(json['algorithm']),
@@ -134,7 +124,6 @@ class Password extends DataClass implements Insertable<Password> {
       'id': serializer.toJson<int>(id),
       'service': serializer.toJson<String>(service),
       'account': serializer.toJson<String>(account),
-      'secret': serializer.toJson<String>(secret),
       'length': serializer.toJson<int>(length),
       'period': serializer.toJson<int>(period),
       'algorithm': serializer.toJson<Algorithm>(algorithm),
@@ -147,7 +136,6 @@ class Password extends DataClass implements Insertable<Password> {
           {int id,
           String service,
           String account,
-          String secret,
           int length,
           int period,
           Algorithm algorithm,
@@ -157,7 +145,6 @@ class Password extends DataClass implements Insertable<Password> {
         id: id ?? this.id,
         service: service ?? this.service,
         account: account ?? this.account,
-        secret: secret ?? this.secret,
         length: length ?? this.length,
         period: period ?? this.period,
         algorithm: algorithm ?? this.algorithm,
@@ -170,7 +157,6 @@ class Password extends DataClass implements Insertable<Password> {
           ..write('id: $id, ')
           ..write('service: $service, ')
           ..write('account: $account, ')
-          ..write('secret: $secret, ')
           ..write('length: $length, ')
           ..write('period: $period, ')
           ..write('algorithm: $algorithm, ')
@@ -188,15 +174,11 @@ class Password extends DataClass implements Insertable<Password> {
           $mrjc(
               account.hashCode,
               $mrjc(
-                  secret.hashCode,
+                  length.hashCode,
                   $mrjc(
-                      length.hashCode,
-                      $mrjc(
-                          period.hashCode,
-                          $mrjc(
-                              algorithm.hashCode,
-                              $mrjc(
-                                  timeBased.hashCode, counter.hashCode)))))))));
+                      period.hashCode,
+                      $mrjc(algorithm.hashCode,
+                          $mrjc(timeBased.hashCode, counter.hashCode))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -204,7 +186,6 @@ class Password extends DataClass implements Insertable<Password> {
           other.id == this.id &&
           other.service == this.service &&
           other.account == this.account &&
-          other.secret == this.secret &&
           other.length == this.length &&
           other.period == this.period &&
           other.algorithm == this.algorithm &&
@@ -216,7 +197,6 @@ class PasswordsCompanion extends UpdateCompanion<Password> {
   final Value<int> id;
   final Value<String> service;
   final Value<String> account;
-  final Value<String> secret;
   final Value<int> length;
   final Value<int> period;
   final Value<Algorithm> algorithm;
@@ -226,7 +206,6 @@ class PasswordsCompanion extends UpdateCompanion<Password> {
     this.id = const Value.absent(),
     this.service = const Value.absent(),
     this.account = const Value.absent(),
-    this.secret = const Value.absent(),
     this.length = const Value.absent(),
     this.period = const Value.absent(),
     this.algorithm = const Value.absent(),
@@ -237,20 +216,17 @@ class PasswordsCompanion extends UpdateCompanion<Password> {
     this.id = const Value.absent(),
     this.service = const Value.absent(),
     @required String account,
-    @required String secret,
     this.length = const Value.absent(),
     this.period = const Value.absent(),
     @required Algorithm algorithm,
     this.timeBased = const Value.absent(),
     this.counter = const Value.absent(),
   })  : account = Value(account),
-        secret = Value(secret),
         algorithm = Value(algorithm);
   static Insertable<Password> custom({
     Expression<int> id,
     Expression<String> service,
     Expression<String> account,
-    Expression<String> secret,
     Expression<int> length,
     Expression<int> period,
     Expression<int> algorithm,
@@ -261,7 +237,6 @@ class PasswordsCompanion extends UpdateCompanion<Password> {
       if (id != null) 'id': id,
       if (service != null) 'service': service,
       if (account != null) 'account': account,
-      if (secret != null) 'secret': secret,
       if (length != null) 'length': length,
       if (period != null) 'period': period,
       if (algorithm != null) 'algorithm': algorithm,
@@ -274,7 +249,6 @@ class PasswordsCompanion extends UpdateCompanion<Password> {
       {Value<int> id,
       Value<String> service,
       Value<String> account,
-      Value<String> secret,
       Value<int> length,
       Value<int> period,
       Value<Algorithm> algorithm,
@@ -284,7 +258,6 @@ class PasswordsCompanion extends UpdateCompanion<Password> {
       id: id ?? this.id,
       service: service ?? this.service,
       account: account ?? this.account,
-      secret: secret ?? this.secret,
       length: length ?? this.length,
       period: period ?? this.period,
       algorithm: algorithm ?? this.algorithm,
@@ -304,9 +277,6 @@ class PasswordsCompanion extends UpdateCompanion<Password> {
     }
     if (account.present) {
       map['account'] = Variable<String>(account.value);
-    }
-    if (secret.present) {
-      map['secret'] = Variable<String>(secret.value);
     }
     if (length.present) {
       map['length'] = Variable<int>(length.value);
@@ -333,7 +303,6 @@ class PasswordsCompanion extends UpdateCompanion<Password> {
           ..write('id: $id, ')
           ..write('service: $service, ')
           ..write('account: $account, ')
-          ..write('secret: $secret, ')
           ..write('length: $length, ')
           ..write('period: $period, ')
           ..write('algorithm: $algorithm, ')
@@ -377,14 +346,6 @@ class $PasswordsTable extends Passwords
   GeneratedTextColumn _constructAccount() {
     return GeneratedTextColumn('account', $tableName, false,
         minTextLength: 1, maxTextLength: 100);
-  }
-
-  final VerificationMeta _secretMeta = const VerificationMeta('secret');
-  GeneratedTextColumn _secret;
-  @override
-  GeneratedTextColumn get secret => _secret ??= _constructSecret();
-  GeneratedTextColumn _constructSecret() {
-    return GeneratedTextColumn('secret', $tableName, false, minTextLength: 1);
   }
 
   final VerificationMeta _lengthMeta = const VerificationMeta('length');
@@ -445,17 +406,8 @@ class $PasswordsTable extends Passwords
   }
 
   @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        service,
-        account,
-        secret,
-        length,
-        period,
-        algorithm,
-        timeBased,
-        counter
-      ];
+  List<GeneratedColumn> get $columns =>
+      [id, service, account, length, period, algorithm, timeBased, counter];
   @override
   $PasswordsTable get asDslTable => this;
   @override
@@ -479,12 +431,6 @@ class $PasswordsTable extends Passwords
           account.isAcceptableOrUnknown(data['account'], _accountMeta));
     } else if (isInserting) {
       context.missing(_accountMeta);
-    }
-    if (data.containsKey('secret')) {
-      context.handle(_secretMeta,
-          secret.isAcceptableOrUnknown(data['secret'], _secretMeta));
-    } else if (isInserting) {
-      context.missing(_secretMeta);
     }
     if (data.containsKey('length')) {
       context.handle(_lengthMeta,

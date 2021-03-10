@@ -27,7 +27,6 @@ class Passwords extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get service => text().nullable()();
   TextColumn get account => text().withLength(min: 1, max: 100)();
-  TextColumn get secret => text().withLength(min: 1)();
   IntColumn get length => integer().nullable()();
   IntColumn get period => integer().nullable()();
   IntColumn get algorithm => integer().map(const AlgorithmConverter())();
@@ -63,7 +62,7 @@ class PasswordDao extends DatabaseAccessor<Database> with _$PasswordDaoMixin {
     return (select(passwords)..where((t) => t.id.equals(id))).getSingle();
   }
 
-  Future insertPassword(PasswordsCompanion password) {
+  Future<int> insertPassword(PasswordsCompanion password) {
     return into(passwords).insert(password);
   }
 

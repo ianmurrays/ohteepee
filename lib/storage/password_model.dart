@@ -1,6 +1,7 @@
 import 'package:moor/moor.dart';
 import 'package:otp/otp.dart' as otp;
 import 'package:base32/base32.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import './database.dart';
 
@@ -40,7 +41,6 @@ class PasswordModel {
     id = password.id;
     service = password.service;
     account = password.account;
-    secret = password.secret;
     length = password.length;
     period = password.period;
     algorithm = password.algorithm;
@@ -135,7 +135,6 @@ class PasswordModel {
     return PasswordsCompanion(
       service: Value(service),
       account: Value(account),
-      secret: Value(secret),
       length: Value(length),
       period: Value(period),
       algorithm: Value(algorithm),
@@ -148,7 +147,6 @@ class PasswordModel {
     return _dbModel.copyWith(
       service: service,
       account: account,
-      secret: secret,
       length: length,
       period: period,
       algorithm: algorithm,
@@ -161,7 +159,34 @@ class PasswordModel {
     return dao.updatePassword(_dbModel.copyWith(counter: counter + 1));
   }
 
-  String generateOTP() {
+  Future<String> getSecret() async {
+    if (secret != null) {
+      return secret;
+    }
+
+    secret = await FlutterSecureStorage().read(key: id.toString());
+
+    return secret;
+  }
+
+  Future save(PasswordDao dao) async {
+    if (isNew) {
+      id = await dao.insertPassword(toCompanion());
+    } else {
+      await dao.updatePassword(toDbModel());
+    }
+
+    await FlutterSecureStorage()
+        .write(key: id.toString(), value: await getSecret());
+  }
+
+  Future delete(PasswordDao dao) async {
+    await dao.deletePassword(toDbModel());
+
+    await FlutterSecureStorage().delete(key: id.toString());
+  }
+
+  Future<String> generateOTP() {
     if (timeBased) {
       return _generateTOTP();
     } else {
@@ -169,9 +194,9 @@ class PasswordModel {
     }
   }
 
-  String _generateTOTP() {
+  Future<String> _generateTOTP() async {
     return otp.OTP.generateTOTPCodeString(
-      secret,
+      await getSecret(),
       DateTime.now().millisecondsSinceEpoch,
       length: length,
       interval: period,
@@ -179,9 +204,9 @@ class PasswordModel {
     );
   }
 
-  String _generateHOTP() {
+  Future<String> _generateHOTP() async {
     return otp.OTP.generateHOTPCodeString(
-      secret,
+      await getSecret(),
       counter,
       length: length,
       algorithm: _algorithm,

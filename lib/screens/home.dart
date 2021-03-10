@@ -74,9 +74,16 @@ class Home extends StatelessWidget {
 
                 final passwordIds = homeScreen.selectedPasswordIds;
 
-                await Provider.of<Database>(context, listen: false)
-                    .passwordDao
-                    .deletePasswordIds(passwordIds.toList());
+                final dao =
+                    Provider.of<Database>(context, listen: false).passwordDao;
+
+                final futures = passwordIds.map((id) async {
+                  final password = PasswordModel.fromDb(await dao.findById(id));
+
+                  await password.delete(dao);
+                });
+
+                await Future.wait(futures);
 
                 homeScreen.reset();
               },

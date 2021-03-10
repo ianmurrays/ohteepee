@@ -82,7 +82,7 @@ class _CameraState extends State<Camera> {
 
   void _onQRViewCreated(QRViewController controller) {
     _controller = controller;
-    _controller.scannedDataStream.listen((scanData) {
+    _controller.scannedDataStream.listen((scanData) async {
       if (!_keepUpdating) {
         return;
       }
@@ -93,9 +93,8 @@ class _CameraState extends State<Camera> {
         _keepUpdating = false;
         _controller.stopCamera();
 
-        Provider.of<Database>(context, listen: false)
-            .passwordDao
-            .insertPassword(password.toCompanion());
+        await password
+            .save(Provider.of<Database>(context, listen: false).passwordDao);
 
         Navigator.of(context).pop();
       } on InvalidOTPUriException catch (e) {

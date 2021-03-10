@@ -38,7 +38,7 @@ class PasswordTile extends StatelessWidget {
   }
 
   void _copyToClipboard(BuildContext context, PasswordModel password) async {
-    await Clipboard.setData(ClipboardData(text: password.generateOTP()));
+    await Clipboard.setData(ClipboardData(text: await password.generateOTP()));
 
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context)
@@ -102,9 +102,18 @@ class PasswordTile extends StatelessWidget {
       subtitle: shown
           ? Consumer<GlobalTimer>(
               builder: (_ctx, timer, _child) {
-                return Text(
-                  password.generateOTP(),
-                  style: TextStyle(fontSize: 25),
+                return FutureBuilder(
+                  future: password.generateOTP(),
+                  builder: (_ctx, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Text('');
+                    }
+
+                    return Text(
+                      snapshot.data,
+                      style: TextStyle(fontSize: 25),
+                    );
+                  },
                 );
               },
             )

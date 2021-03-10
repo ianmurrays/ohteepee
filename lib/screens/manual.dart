@@ -38,12 +38,7 @@ class _ManualState extends State<Manual> {
               if (_formKey.currentState.validate()) {
                 final db = Provider.of<Database>(context, listen: false);
 
-                if (widget.model.isNew) {
-                  await db.passwordDao
-                      .insertPassword(widget.model.toCompanion());
-                } else {
-                  await db.passwordDao.updatePassword(widget.model.toDbModel());
-                }
+                await widget.model.save(db.passwordDao);
 
                 Navigator.of(context).pop();
               }
