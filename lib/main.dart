@@ -79,6 +79,18 @@ class OhTeePee extends StatelessWidget {
                 color: Colors.blueGrey[800],
               ),
             ),
+            errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                width: 1,
+                color: Colors.red[900],
+              ),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                width: 1,
+                color: Colors.red[900],
+              ),
+            ),
           ),
         ),
         darkTheme: ThemeData(
@@ -111,6 +123,18 @@ class OhTeePee extends StatelessWidget {
               borderSide: BorderSide(
                 width: 1,
                 color: Colors.grey[300],
+              ),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                width: 1,
+                color: Colors.red[900],
+              ),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                width: 1,
+                color: Colors.red[900],
               ),
             ),
           ),
