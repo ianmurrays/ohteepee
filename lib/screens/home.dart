@@ -35,6 +35,9 @@ class Home extends StatelessWidget {
                         .passwordDao
                         .findById(passwordIds.first));
 
+                // Populate the secret from secure storage
+                await model.getSecret();
+
                 MaterialPageRoute route = MaterialPageRoute(
                     builder: (context) => Manual(model: model),
                     fullscreenDialog: true);
