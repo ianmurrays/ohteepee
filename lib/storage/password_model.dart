@@ -71,10 +71,10 @@ class PasswordModel {
     }
 
     if (issuerAccount.length == 1) {
-      account = issuerAccount.first;
+      account = Uri.decodeComponent(issuerAccount.first);
     } else {
-      service = issuerAccount[0];
-      account = issuerAccount[1];
+      service = Uri.decodeComponent(issuerAccount[0]);
+      account = Uri.decodeComponent(issuerAccount[1]);
     }
 
     if (!parsed.queryParameters.containsKey('secret') ||
