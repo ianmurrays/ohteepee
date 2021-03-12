@@ -7,7 +7,7 @@ part of 'database.dart';
 // **************************************************************************
 
 // ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
-class Password extends DataClass implements Insertable<Password> {
+class PasswordRow extends DataClass implements Insertable<PasswordRow> {
   final int id;
   final String service;
   final String account;
@@ -16,7 +16,7 @@ class Password extends DataClass implements Insertable<Password> {
   final Algorithm algorithm;
   final bool timeBased;
   final int counter;
-  Password(
+  PasswordRow(
       {@required this.id,
       this.service,
       @required this.account,
@@ -25,13 +25,13 @@ class Password extends DataClass implements Insertable<Password> {
       @required this.algorithm,
       @required this.timeBased,
       this.counter});
-  factory Password.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+  factory PasswordRow.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
     final boolType = db.typeSystem.forDartType<bool>();
-    return Password(
+    return PasswordRow(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       service:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}service']),
@@ -103,10 +103,10 @@ class Password extends DataClass implements Insertable<Password> {
     );
   }
 
-  factory Password.fromJson(Map<String, dynamic> json,
+  factory PasswordRow.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
-    return Password(
+    return PasswordRow(
       id: serializer.fromJson<int>(json['id']),
       service: serializer.fromJson<String>(json['service']),
       account: serializer.fromJson<String>(json['account']),
@@ -132,7 +132,7 @@ class Password extends DataClass implements Insertable<Password> {
     };
   }
 
-  Password copyWith(
+  PasswordRow copyWith(
           {int id,
           String service,
           String account,
@@ -141,7 +141,7 @@ class Password extends DataClass implements Insertable<Password> {
           Algorithm algorithm,
           bool timeBased,
           int counter}) =>
-      Password(
+      PasswordRow(
         id: id ?? this.id,
         service: service ?? this.service,
         account: account ?? this.account,
@@ -153,7 +153,7 @@ class Password extends DataClass implements Insertable<Password> {
       );
   @override
   String toString() {
-    return (StringBuffer('Password(')
+    return (StringBuffer('PasswordRow(')
           ..write('id: $id, ')
           ..write('service: $service, ')
           ..write('account: $account, ')
@@ -182,7 +182,7 @@ class Password extends DataClass implements Insertable<Password> {
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
-      (other is Password &&
+      (other is PasswordRow &&
           other.id == this.id &&
           other.service == this.service &&
           other.account == this.account &&
@@ -193,7 +193,7 @@ class Password extends DataClass implements Insertable<Password> {
           other.counter == this.counter);
 }
 
-class PasswordsCompanion extends UpdateCompanion<Password> {
+class PasswordsCompanion extends UpdateCompanion<PasswordRow> {
   final Value<int> id;
   final Value<String> service;
   final Value<String> account;
@@ -223,7 +223,7 @@ class PasswordsCompanion extends UpdateCompanion<Password> {
     this.counter = const Value.absent(),
   })  : account = Value(account),
         algorithm = Value(algorithm);
-  static Insertable<Password> custom({
+  static Insertable<PasswordRow> custom({
     Expression<int> id,
     Expression<String> service,
     Expression<String> account,
@@ -314,7 +314,7 @@ class PasswordsCompanion extends UpdateCompanion<Password> {
 }
 
 class $PasswordsTable extends Passwords
-    with TableInfo<$PasswordsTable, Password> {
+    with TableInfo<$PasswordsTable, PasswordRow> {
   final GeneratedDatabase _db;
   final String _alias;
   $PasswordsTable(this._db, [this._alias]);
@@ -415,7 +415,7 @@ class $PasswordsTable extends Passwords
   @override
   final String actualTableName = 'passwords';
   @override
-  VerificationContext validateIntegrity(Insertable<Password> instance,
+  VerificationContext validateIntegrity(Insertable<PasswordRow> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -455,9 +455,9 @@ class $PasswordsTable extends Passwords
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Password map(Map<String, dynamic> data, {String tablePrefix}) {
+  PasswordRow map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
-    return Password.fromData(data, _db, prefix: effectivePrefix);
+    return PasswordRow.fromData(data, _db, prefix: effectivePrefix);
   }
 
   @override

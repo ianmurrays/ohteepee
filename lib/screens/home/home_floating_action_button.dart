@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
-import '../screens/camera.dart';
-import '../screens/manual.dart';
-import '../storage/password_model.dart';
+import '../add_password.dart';
+import '../camera.dart';
 
 class HomeFloatingActionButton extends StatelessWidget {
   @override
@@ -41,11 +40,8 @@ class HomeFloatingActionButton extends StatelessWidget {
   }
 
   void _openCamera(BuildContext context) {
-    MaterialPageRoute route = MaterialPageRoute(
-        builder: (context) => Camera(), fullscreenDialog: true);
-
     SystemChrome.setEnabledSystemUIOverlays([]);
-    Navigator.of(context).push(route).then((value) {
+    Navigator.of(context).pushNamed(Camera.route).then((value) {
       SystemChrome.setEnabledSystemUIOverlays([
         SystemUiOverlay.top,
         SystemUiOverlay.bottom,
@@ -54,10 +50,6 @@ class HomeFloatingActionButton extends StatelessWidget {
   }
 
   void _openManual(BuildContext context) {
-    MaterialPageRoute route = MaterialPageRoute(
-        builder: (context) => Manual(model: PasswordModel()),
-        fullscreenDialog: true);
-
-    Navigator.of(context).push(route);
+    Navigator.of(context).pushNamed(AddPassword.route);
   }
 }

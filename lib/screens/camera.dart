@@ -1,11 +1,15 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:provider/provider.dart';
 
-import '../storage/database.dart';
-import '../storage/password_model.dart';
+import '../models/password.dart';
+import '../redux/app_actions.dart';
+import '../redux/app_state.dart';
 
 class Camera extends StatefulWidget {
+  static const route = '/camera';
+
   @override
   _CameraState createState() => _CameraState();
 }
@@ -88,13 +92,19 @@ class _CameraState extends State<Camera> {
       }
 
       try {
-        final password = PasswordModel.fromUri(scanData.code);
+        final password = Password.fromUri(scanData.code);
 
         _keepUpdating = false;
         _controller.stopCamera();
 
-        await password
-            .save(Provider.of<Database>(context, listen: false).passwordDao);
+        final completer = Completer();
+
+        StoreProvider.of<AppState>(context).dispatch(CreatePassword(
+          password: password,
+          completer: completer,
+        ));
+
+        await completer.future;
 
         Navigator.of(context).pop();
       } on InvalidOTPUriException catch (e) {

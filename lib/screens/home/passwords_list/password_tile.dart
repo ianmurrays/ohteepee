@@ -1,16 +1,29 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/home_screen.dart';
-import '../providers/global_timer.dart';
+import '../../../redux/app_actions.dart';
+import '../../../redux/app_state.dart';
+import '../../../models/password.dart';
+import '../../../providers/global_timer.dart';
 import './circular_time_remaining_indicator.dart';
-import '../storage/database.dart';
-import '../storage/password_model.dart';
-// import '../storage/password_utils.dart';
 
 class PasswordTile extends StatelessWidget {
-  Widget _trailingWidget(BuildContext context, PasswordModel password) {
+  final Password password;
+  final bool isSelected;
+  final bool anySelected;
+  final bool isShown;
+
+  PasswordTile({
+    @required this.password,
+    @required this.isSelected,
+    @required this.anySelected,
+    @required this.isShown,
+  });
+
+  Widget _trailingWidget(BuildContext context, Password password) {
     if (password.timeBased) {
       return Consumer<GlobalTimer>(
         builder: (_ctx, timer, _child) {
@@ -28,8 +41,14 @@ class PasswordTile extends StatelessWidget {
           color: Theme.of(context).textTheme.bodyText1.color,
         ),
         onPressed: () async {
-          await password.increaseCounter(
-              Provider.of<Database>(context, listen: false).passwordDao);
+          final completer = Completer();
+
+          StoreProvider.of<AppState>(context).dispatch(IncreasePasswordCounter(
+            password: password,
+            completer: completer,
+          ));
+
+          await completer.future;
 
           _copyToClipboard(context, password);
         },
@@ -37,7 +56,7 @@ class PasswordTile extends StatelessWidget {
     }
   }
 
-  void _copyToClipboard(BuildContext context, PasswordModel password) async {
+  void _copyToClipboard(BuildContext context, Password password) async {
     await Clipboard.setData(ClipboardData(text: await password.generateOTP()));
 
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -47,47 +66,39 @@ class PasswordTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final password = Provider.of<PasswordModel>(context);
-    final homeScreen = Provider.of<HomeScreen>(context);
-    final selected = homeScreen.selectedPasswordIds.contains(password.id);
-    final anySelected = homeScreen.selectedPasswordIds.length >= 1;
-    final shown = homeScreen.shownPasswordIds.contains(password.id);
-
     return ListTile(
       onTap: () {
         if (anySelected) {
-          homeScreen.togglePassword(password);
+          StoreProvider.of<AppState>(context)
+              .dispatch(ToggleSelectPassword(password));
         } else {
-          final shown = homeScreen.toggleShowPassword(password);
-
-          if (shown) {
-            _copyToClipboard(context, password);
-          }
+          StoreProvider.of<AppState>(context)
+              .dispatch(ToggleDisplayPassword(password));
         }
       },
       onLongPress: () {
-        Provider.of<HomeScreen>(context, listen: false)
-            .togglePassword(password);
+        StoreProvider.of<AppState>(context)
+            .dispatch(ToggleSelectPassword(password));
       },
-      selected: selected,
+      selected: isSelected,
       selectedTileColor: Theme.of(context).selectedRowColor,
       leading: Container(
         width: 48,
         height: 48,
         decoration: BoxDecoration(
-          color: selected
+          color: isSelected
               ? Theme.of(context).accentColor
               : Theme.of(context).primaryColor,
           shape: BoxShape.circle,
         ),
         child: Center(
-          child: selected
+          child: isSelected
               ? const Icon(
                   Icons.check,
                   color: Colors.white,
                 )
               : Text(
-                  (password.service != null
+                  (password.service != null && password.service.length > 0
                           ? password.service.substring(0, 1)
                           : password.account.substring(0, 1))
                       .toUpperCase(),
@@ -99,7 +110,7 @@ class PasswordTile extends StatelessWidget {
         ),
       ),
       title: _title(password),
-      subtitle: shown
+      subtitle: isShown
           ? Consumer<GlobalTimer>(
               builder: (_ctx, timer, _child) {
                 return FutureBuilder(
@@ -118,12 +129,12 @@ class PasswordTile extends StatelessWidget {
               },
             )
           : const Text('••••••'),
-      trailing: shown ? _trailingWidget(context, password) : null,
+      trailing: isShown ? _trailingWidget(context, password) : null,
     );
   }
 
   Widget _title(password) {
-    if (password.service != null) {
+    if (password.service != null && password.service.length > 0) {
       return Row(
         children: [
           Text(password.service),

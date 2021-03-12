@@ -1,16 +1,15 @@
 import 'package:moor/moor.dart';
 import 'package:otp/otp.dart' as otp;
 import 'package:base32/base32.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import './database.dart';
+import '../storage/database.dart';
 
 class InvalidOTPUriException implements Exception {
   final String message;
   const InvalidOTPUriException(this.message);
 }
 
-class PasswordModel {
+class Password {
   int id;
   String service;
   String account;
@@ -21,9 +20,9 @@ class PasswordModel {
   bool timeBased;
   int counter;
 
-  Password _dbModel;
+  PasswordRow _dbModel;
 
-  PasswordModel({
+  Password({
     this.id,
     this.service,
     this.account,
@@ -35,7 +34,7 @@ class PasswordModel {
     this.counter = 0,
   });
 
-  PasswordModel.fromDb(Password password) {
+  Password.fromDb(PasswordRow password) {
     _dbModel = password;
 
     id = password.id;
@@ -48,7 +47,7 @@ class PasswordModel {
     counter = password.counter;
   }
 
-  PasswordModel.fromUri(String uri) {
+  Password.fromUri(String uri) {
     final parsed = Uri.parse(uri);
 
     if (parsed.scheme != 'otpauth') {
@@ -143,7 +142,7 @@ class PasswordModel {
     );
   }
 
-  Password toDbModel() {
+  PasswordRow toDbModel() {
     return _dbModel.copyWith(
       service: service,
       account: account,
@@ -153,37 +152,6 @@ class PasswordModel {
       timeBased: timeBased,
       counter: counter,
     );
-  }
-
-  Future increaseCounter(PasswordDao dao) {
-    return dao.updatePassword(_dbModel.copyWith(counter: counter + 1));
-  }
-
-  Future<String> getSecret() async {
-    if (secret != null) {
-      return secret;
-    }
-
-    secret = await FlutterSecureStorage().read(key: id.toString());
-
-    return secret;
-  }
-
-  Future save(PasswordDao dao) async {
-    if (isNew) {
-      id = await dao.insertPassword(toCompanion());
-    } else {
-      await dao.updatePassword(toDbModel());
-    }
-
-    await FlutterSecureStorage()
-        .write(key: id.toString(), value: await getSecret());
-  }
-
-  Future delete(PasswordDao dao) async {
-    await dao.deletePassword(toDbModel());
-
-    await FlutterSecureStorage().delete(key: id.toString());
   }
 
   Future<String> generateOTP() {
@@ -196,7 +164,7 @@ class PasswordModel {
 
   Future<String> _generateTOTP() async {
     return otp.OTP.generateTOTPCodeString(
-      await getSecret(),
+      secret,
       DateTime.now().millisecondsSinceEpoch,
       length: length,
       interval: period,
@@ -206,7 +174,7 @@ class PasswordModel {
 
   Future<String> _generateHOTP() async {
     return otp.OTP.generateHOTPCodeString(
-      await getSecret(),
+      secret,
       counter,
       length: length,
       algorithm: _algorithm,

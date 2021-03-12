@@ -4,12 +4,12 @@ part of 'database.dart';
 class PasswordDao extends DatabaseAccessor<Database> with _$PasswordDaoMixin {
   PasswordDao(Database attachedDatabase) : super(attachedDatabase);
 
-  Stream<List<Password>> watchAll() {
+  Future<List<PasswordRow>> selectAll() async {
     return (select(passwords)..orderBy([(t) => OrderingTerm(expression: t.id)]))
-        .watch();
+        .get();
   }
 
-  Future<Password> findById(int id) {
+  Future<PasswordRow> findById(int id) {
     return (select(passwords)..where((t) => t.id.equals(id))).getSingle();
   }
 
@@ -17,11 +17,11 @@ class PasswordDao extends DatabaseAccessor<Database> with _$PasswordDaoMixin {
     return into(passwords).insert(password);
   }
 
-  Future updatePassword(Password password) {
-    return update(passwords).replace(password);
+  Future updatePassword(int id, PasswordsCompanion password) {
+    return (update(passwords)..where((t) => t.id.equals(id))).write(password);
   }
 
-  Future deletePassword(Password password) {
+  Future deletePassword(PasswordRow password) {
     return delete(passwords).delete(password);
   }
 
