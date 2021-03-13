@@ -72,6 +72,10 @@ class PasswordTile extends StatelessWidget {
           StoreProvider.of<AppState>(context)
               .dispatch(ToggleSelectPassword(password));
         } else {
+          if (!isShown) {
+            _copyToClipboard(context, password);
+          }
+
           StoreProvider.of<AppState>(context)
               .dispatch(ToggleDisplayPassword(password));
         }
@@ -120,10 +124,8 @@ class PasswordTile extends StatelessWidget {
                       return Text('');
                     }
 
-                    return Text(
-                      snapshot.data,
-                      style: Theme.of(context).textTheme.headline5
-                    );
+                    return Text(snapshot.data,
+                        style: Theme.of(context).textTheme.headline5);
                   },
                 );
               },
