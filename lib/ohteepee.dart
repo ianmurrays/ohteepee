@@ -46,6 +46,7 @@ class _OhTeePeeState extends State<OhTeePee> {
           title: 'Oh Tee Pee',
           theme: _lightTheme(),
           darkTheme: _darkTheme(),
+          themeMode: ThemeMode.system,
           routes: {
             HomeScreen.route: (_ctx) {
               store.dispatch(LoadPasswords());
@@ -69,8 +70,8 @@ class _OhTeePeeState extends State<OhTeePee> {
   }
 
   ThemeData _darkTheme() {
-    return ThemeData(
-      primarySwatch: Colors.blueGrey,
+    return ThemeData.dark().copyWith(
+      primaryColor: Colors.blueGrey,
       backgroundColor: Colors.grey[850],
       dialogBackgroundColor: Colors.grey[850],
       scaffoldBackgroundColor: Colors.grey[850],
@@ -118,8 +119,8 @@ class _OhTeePeeState extends State<OhTeePee> {
   }
 
   ThemeData _lightTheme() {
-    return ThemeData(
-      primarySwatch: Colors.blueGrey,
+    return ThemeData.light().copyWith(
+      primaryColor: Colors.blueGrey,
       accentColor: Colors.blueGrey[800],
       selectedRowColor: Colors.blueGrey[50],
       inputDecorationTheme: InputDecorationTheme(

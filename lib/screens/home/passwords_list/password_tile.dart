@@ -122,13 +122,13 @@ class PasswordTile extends StatelessWidget {
 
                     return Text(
                       snapshot.data,
-                      style: TextStyle(fontSize: 25),
+                      style: Theme.of(context).textTheme.headline5
                     );
                   },
                 );
               },
             )
-          : const Text('••••••'),
+          : const Text('●●●●●●'),
       trailing: isShown ? _trailingWidget(context, password) : null,
     );
   }
