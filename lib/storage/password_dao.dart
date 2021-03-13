@@ -21,8 +21,8 @@ class PasswordDao extends DatabaseAccessor<Database> with _$PasswordDaoMixin {
     return (update(passwords)..where((t) => t.id.equals(id))).write(password);
   }
 
-  Future deletePassword(PasswordRow password) {
-    return delete(passwords).delete(password);
+  Future deletePassword(int id) {
+    return (delete(passwords)..where((t) => t.id.equals(id))).go();
   }
 
   Future deletePasswordIds(List<int> ids) {

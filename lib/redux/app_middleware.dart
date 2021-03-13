@@ -28,7 +28,16 @@ void Function(Store<AppState> store, LoadPasswords action, NextDispatcher next)
     final futures = passwordRows.map((row) async {
       final secret = await FlutterSecureStorage().read(key: row.id.toString());
 
-      return Password.fromDb(row)..secret = secret;
+      return Password((b) => b
+        ..id = row.id
+        ..service = row.service
+        ..account = row.account
+        ..length = row.length
+        ..period = row.period
+        ..algorithm = row.algorithm
+        ..timeBased = row.timeBased
+        ..counter = row.counter
+        ..secret = secret);
     });
 
     store.dispatch(OnPasswordsLoaded(await Future.wait(futures)));
@@ -47,8 +56,8 @@ void Function(Store<AppState> store, IncreasePasswordCounter action,
             counter: Value(action.password.counter + 1),
           ));
 
-      // FIXME: This should be some new password model, not modified in place
-      action.password.counter += 1;
+      store.dispatch(OnUpdatePassword(action.password
+          .rebuild((b) => b..counter = action.password.counter + 1)));
 
       action.completer.complete();
     } catch (e) {
@@ -62,16 +71,25 @@ void Function(Store<AppState> store, CreatePassword action, NextDispatcher next)
   return (store, action, next) async {
     next(action);
 
-    final id = await dao.insertPassword(action.password.toCompanion());
-    final passwordRow = await dao.findById(id);
+    final companion = PasswordsCompanion(
+      service: Value(action.password.service),
+      account: Value(action.password.account),
+      length: Value(action.password.length),
+      period: Value(action.password.period),
+      algorithm: Value(action.password.algorithm),
+      timeBased: Value(action.password.timeBased),
+      counter: Value(action.password.counter),
+    );
+
+    final id = await dao.insertPassword(companion);
 
     await FlutterSecureStorage().write(
       key: id.toString(),
       value: action.password.secret,
     );
 
-    store.dispatch(OnCreatePassword(
-        Password.fromDb(passwordRow)..secret = action.password.secret));
+    store
+        .dispatch(OnCreatePassword(action.password.rebuild((b) => b..id = id)));
 
     action.completer.complete();
   };
@@ -82,14 +100,24 @@ void Function(Store<AppState> store, UpdatePassword action, NextDispatcher next)
   return (store, action, next) async {
     next(action);
 
-    await dao.updatePassword(action.password.id, action.password.toCompanion());
+    final companion = PasswordsCompanion(
+      service: Value(action.password.service),
+      account: Value(action.password.account),
+      length: Value(action.password.length),
+      period: Value(action.password.period),
+      algorithm: Value(action.password.algorithm),
+      timeBased: Value(action.password.timeBased),
+      counter: Value(action.password.counter),
+    );
+
+    await dao.updatePassword(action.password.id, companion);
 
     await FlutterSecureStorage().write(
       key: action.password.id.toString(),
       value: action.password.secret,
     );
 
-    store.dispatch(LoadPasswords());
+    store.dispatch(OnUpdatePassword(action.password));
 
     action.completer.complete();
   };
@@ -104,7 +132,7 @@ void Function(Store<AppState> store, DeleteSelectedPasswords action,
         .where(
             (element) => store.state.selectedPasswordIds.contains(element.id))
         .forEach((password) async {
-      await dao.deletePassword(password.toDbModel());
+      await dao.deletePassword(password.id);
       await FlutterSecureStorage().delete(
         key: password.id.toString(),
       );

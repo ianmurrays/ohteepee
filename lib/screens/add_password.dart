@@ -27,15 +27,15 @@ class AddPassword extends StatelessWidget {
           timeBased,
           counter,
         }) async {
-          final password = Password(
-            service: service,
-            account: account,
-            secret: secret,
-            length: length,
-            period: period,
-            algorithm: algorithm,
-            timeBased: timeBased,
-            counter: counter,
+          final password = Password((b) => b
+            ..service = service
+            ..account = account
+            ..secret = secret
+            ..length = length
+            ..period = period
+            ..algorithm = algorithm
+            ..timeBased = timeBased
+            ..counter = counter
           );
 
           final completer = Completer();

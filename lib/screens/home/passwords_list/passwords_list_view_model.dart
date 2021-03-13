@@ -1,27 +1,33 @@
+import 'package:built_collection/built_collection.dart';
+import 'package:built_value/built_value.dart';
 import 'package:redux/redux.dart';
 
 import '../../../models/password.dart';
 import '../../../redux/app_state.dart';
 
-class PasswordsListViewModel {
-  List<Password> passwords;
+part 'passwords_list_view_model.g.dart';
 
-  Set<Password> selectedPasswords;
+abstract class PasswordsListViewModel
+    implements Built<PasswordsListViewModel, PasswordsListViewModelBuilder> {
+  BuiltList<Password> get passwords;
 
-  Set<Password> shownPasswords;
+  BuiltSet<Password> get selectedPasswords;
+
+  BuiltSet<Password> get shownPasswords;
 
   PasswordsListViewModel._();
 
+  factory PasswordsListViewModel(
+          [void Function(PasswordsListViewModelBuilder) updates]) =
+      _$PasswordsListViewModel;
+
   static PasswordsListViewModel fromStore(Store<AppState> store) {
-    return PasswordsListViewModel._()
-      ..passwords = store.state.passwords
-      ..selectedPasswords = store.state.selectedPasswordIds
-          .map((e) =>
-              store.state.passwords.firstWhere((element) => element.id == e))
-          .toSet()
-      ..shownPasswords = store.state.shownPasswordIds
-          .map((e) =>
-              store.state.passwords.firstWhere((element) => element.id == e))
-          .toSet();
+    return PasswordsListViewModel((b) => b
+      ..passwords = store.state.passwords.toBuilder()
+      ..selectedPasswords = SetBuilder(store.state.selectedPasswordIds.map(
+          (e) =>
+              store.state.passwords.firstWhere((element) => element.id == e)))
+      ..shownPasswords = SetBuilder(store.state.shownPasswordIds.map((e) =>
+          store.state.passwords.firstWhere((element) => element.id == e))));
   }
 }

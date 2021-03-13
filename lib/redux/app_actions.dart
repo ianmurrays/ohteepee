@@ -33,6 +33,12 @@ class UpdatePassword {
       : completer = completer ?? Completer();
 }
 
+class OnUpdatePassword {
+  final Password password;
+
+  const OnUpdatePassword(this.password);
+}
+
 class DeleteSelectedPasswords {}
 
 class OnDeletePassword {
@@ -44,7 +50,9 @@ class OnDeletePassword {
 class ToggleDisplayPassword {
   final Password password;
 
-  const ToggleDisplayPassword(this.password);
+  final bool show;
+
+  ToggleDisplayPassword(this.password, [bool show]) : show = show ?? null;
 }
 
 class ToggleSelectPassword {

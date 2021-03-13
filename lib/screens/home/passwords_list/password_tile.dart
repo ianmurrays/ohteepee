@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -25,6 +24,10 @@ class PasswordTile extends StatelessWidget {
 
   Widget _trailingWidget(BuildContext context, Password password) {
     if (password.timeBased) {
+      if (!isShown) {
+        return null;
+      }
+
       return Consumer<GlobalTimer>(
         builder: (_ctx, timer, _child) {
           return CircularTimeRemainingIndicator(
@@ -41,16 +44,11 @@ class PasswordTile extends StatelessWidget {
           color: Theme.of(context).textTheme.bodyText1.color,
         ),
         onPressed: () async {
-          final completer = Completer();
-
-          StoreProvider.of<AppState>(context).dispatch(IncreasePasswordCounter(
-            password: password,
-            completer: completer,
-          ));
-
-          await completer.future;
-
-          _copyToClipboard(context, password);
+          StoreProvider.of<AppState>(context)
+            ..dispatch(IncreasePasswordCounter(
+              password: password,
+            ))
+            ..dispatch(ToggleDisplayPassword(password, true));
         },
       );
     }
@@ -131,7 +129,7 @@ class PasswordTile extends StatelessWidget {
               },
             )
           : const Text('●●●●●●'),
-      trailing: isShown ? _trailingWidget(context, password) : null,
+      trailing: _trailingWidget(context, password),
     );
   }
 

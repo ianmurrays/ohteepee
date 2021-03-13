@@ -1,23 +1,26 @@
+import 'package:built_value/built_value.dart';
+import 'package:built_collection/built_collection.dart';
+
 import '../models/password.dart';
 
-class AppState {
-  Set<int> selectedPasswordIds;
-  Set<int> shownPasswordIds;
+part 'app_state.g.dart';
 
-  bool loadingPasswords;
+abstract class AppState implements Built<AppState, AppStateBuilder> {
+  BuiltSet<int> get selectedPasswordIds;
 
-  List<Password> passwords;
+  BuiltSet<int> get shownPasswordIds;
+
+  bool get loadingPasswords;
+
+  BuiltList<Password> get passwords;
 
   AppState._();
 
-  factory AppState.init() => AppState._()
-    ..selectedPasswordIds = Set()
-    ..shownPasswordIds = Set()
-    ..loadingPasswords = false
-    ..passwords = [];
+  factory AppState([void Function(AppStateBuilder) updates]) = _$AppState;
 
-  static fromState(AppState state) => AppState.init()
-    ..selectedPasswordIds = Set.from(state.selectedPasswordIds)
-    ..shownPasswordIds = Set.from(state.shownPasswordIds)
-    ..passwords = List.from(state.passwords);
+  factory AppState.init() => AppState((b) => b
+    ..selectedPasswordIds = SetBuilder()
+    ..shownPasswordIds = SetBuilder()
+    ..loadingPasswords = false
+    ..passwords = ListBuilder());
 }

@@ -29,16 +29,16 @@ class EditPassword extends StatelessWidget {
           timeBased,
           counter,
         }) async {
-          final update = Password(
-            id: password.id,
-            service: service,
-            account: account,
-            secret: secret,
-            length: length,
-            period: period,
-            algorithm: algorithm,
-            timeBased: timeBased,
-            counter: counter,
+          final update = Password((b) => b
+            ..id = password.id
+            ..service = service
+            ..account = account
+            ..secret = secret
+            ..length = length
+            ..period = period
+            ..algorithm = algorithm
+            ..timeBased = timeBased
+            ..counter = counter
           );
 
           final completer = Completer();
