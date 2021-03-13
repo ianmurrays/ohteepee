@@ -70,7 +70,8 @@ void Function(Store<AppState> store, CreatePassword action, NextDispatcher next)
       value: action.password.secret,
     );
 
-    store.dispatch(OnCreatePassword(Password.fromDb(passwordRow)));
+    store.dispatch(OnCreatePassword(
+        Password.fromDb(passwordRow)..secret = action.password.secret));
 
     action.completer.complete();
   };
