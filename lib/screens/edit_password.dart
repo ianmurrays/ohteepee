@@ -9,11 +9,9 @@ import '../redux/app_state.dart';
 import './form.dart';
 
 class EditPassword extends StatelessWidget {
-  static const route = '/edit';
-
   final Password password;
 
-  const EditPassword({Key key, this.password}) : super(key: key);
+  const EditPassword({Key key, @required this.password}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

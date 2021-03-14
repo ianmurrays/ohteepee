@@ -41,7 +41,15 @@ class HomeFloatingActionButton extends StatelessWidget {
 
   void _openCamera(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
-    Navigator.of(context).pushNamed(Camera.route).then((value) {
+
+    Navigator.of(context)
+        .push(
+      MaterialPageRoute(
+        builder: (_ctx) => Camera(),
+        fullscreenDialog: true,
+      ),
+    )
+        .then((value) {
       SystemChrome.setEnabledSystemUIOverlays([
         SystemUiOverlay.top,
         SystemUiOverlay.bottom,
@@ -50,6 +58,9 @@ class HomeFloatingActionButton extends StatelessWidget {
   }
 
   void _openManual(BuildContext context) {
-    Navigator.of(context).pushNamed(AddPassword.route);
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (_ctx) => AddPassword(),
+      fullscreenDialog: true,
+    ));
   }
 }

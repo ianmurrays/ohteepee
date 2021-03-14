@@ -9,8 +9,6 @@ import '../redux/app_state.dart';
 import './form.dart';
 
 class AddPassword extends StatelessWidget {
-  static const route = '/new';
-
   const AddPassword({Key key}) : super(key: key);
 
   @override

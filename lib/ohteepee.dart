@@ -48,21 +48,11 @@ class _OhTeePeeState extends State<OhTeePee> {
           darkTheme: _darkTheme(),
           themeMode: ThemeMode.system,
           routes: {
-            HomeScreen.route: (_ctx) {
+            '/': (_ctx) {
               store.dispatch(LoadPasswords());
 
               return HomeScreen();
             },
-            Camera.route: (_ctx) => Camera(),
-            AddPassword.route: (_ctx) => AddPassword(),
-            EditPassword.route: (ctx) {
-              final password =
-                  ModalRoute.of(ctx).settings.arguments as Password;
-
-              return EditPassword(
-                password: password,
-              );
-            }
           },
         ),
       ),

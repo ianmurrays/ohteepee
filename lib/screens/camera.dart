@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:ohteepee/storage/database.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -107,6 +108,8 @@ class _CameraState extends State<Camera> {
         ));
 
         await completer.future;
+
+        HapticFeedback.vibrate();
 
         Navigator.of(context).pop();
       } on InvalidOTPUriException catch (e) {

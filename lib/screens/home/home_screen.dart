@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -27,43 +30,25 @@ class HomeScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: const Text('Oh Tee Pee'),
+            centerTitle: Platform.isIOS,
             actions: [
               if (vm.showEditButton)
                 IconButton(
                   icon: const Icon(Icons.edit),
                   onPressed: () {
-                    Navigator.of(context).pushNamed(EditPassword.route,
-                        arguments: vm.selectedPassword);
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_ctx) => EditPassword(
+                        password: vm.selectedPassword,
+                      ),
+                      fullscreenDialog: true,
+                    ));
                   },
                 ),
               if (vm.showDeleteButton)
                 IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () async {
-                    final result = await showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text('Confirm deletion'),
-                            content: const Text(
-                              'Are you sure you want to delete these passwords? This cannot be undone.',
-                            ),
-                            actions: [
-                              TextButton(
-                                  onPressed: () =>
-                                      Navigator.of(context).pop(false),
-                                  child: const Text('Cancel')),
-                              TextButton(
-                                onPressed: () =>
-                                    Navigator.of(context).pop(true),
-                                child: const Text(
-                                  'Delete',
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                              ),
-                            ],
-                          );
-                        });
+                    final result = await _confirmDialog(context);
 
                     if (!result) {
                       return;
@@ -73,10 +58,11 @@ class HomeScreen extends StatelessWidget {
                         .dispatch(DeleteSelectedPasswords());
                   },
                 ),
-              IconButton(
-                icon: const Icon(Icons.settings),
-                onPressed: () => print('settings'),
-              ),
+              if (vm.showSettings)
+                IconButton(
+                  icon: const Icon(Icons.settings),
+                  onPressed: () => print('settings'),
+                ),
             ],
           ),
           floatingActionButton: vm.showFab ? HomeFloatingActionButton() : null,
@@ -84,5 +70,55 @@ class HomeScreen extends StatelessWidget {
         );
       },
     );
+  }
+
+  Future<bool> _confirmDialog(BuildContext context) {
+    const Text title = const Text('Confirm deletion');
+    const Text content = const Text(
+        'Are you sure you want to delete these passwords? This cannot be undone.');
+
+    Widget Function(BuildContext context) dialog;
+
+    if (Platform.isIOS) {
+      dialog = (ctx) => CupertinoAlertDialog(
+            title: title,
+            content: content,
+            actions: [
+              CupertinoDialogAction(
+                  onPressed: () => Navigator.of(ctx).pop(false),
+                  child: const Text('Cancel')),
+              CupertinoDialogAction(
+                onPressed: () => Navigator.of(ctx).pop(true),
+                child: const Text(
+                  'Delete',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
+          );
+    } else {
+      dialog = (ctx) => AlertDialog(
+            title: title,
+            content: content,
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(false),
+                  child: const Text('Cancel')),
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(true),
+                child: const Text(
+                  'Delete',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
+          );
+    }
+
+    return showDialog(
+        barrierDismissible: !Platform.isIOS,
+        barrierColor: Platform.isIOS ? Colors.transparent : Colors.black54,
+        context: context,
+        builder: (context) => dialog(context));
   }
 }

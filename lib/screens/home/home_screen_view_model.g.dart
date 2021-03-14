@@ -16,6 +16,8 @@ class _$HomeScreenViewModel extends HomeScreenViewModel {
   @override
   final bool showFab;
   @override
+  final bool showSettings;
+  @override
   final bool isLoading;
 
   factory _$HomeScreenViewModel(
@@ -27,6 +29,7 @@ class _$HomeScreenViewModel extends HomeScreenViewModel {
       this.selectedPassword,
       this.showDeleteButton,
       this.showFab,
+      this.showSettings,
       this.isLoading})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
@@ -35,6 +38,8 @@ class _$HomeScreenViewModel extends HomeScreenViewModel {
         showDeleteButton, 'HomeScreenViewModel', 'showDeleteButton');
     BuiltValueNullFieldError.checkNotNull(
         showFab, 'HomeScreenViewModel', 'showFab');
+    BuiltValueNullFieldError.checkNotNull(
+        showSettings, 'HomeScreenViewModel', 'showSettings');
     BuiltValueNullFieldError.checkNotNull(
         isLoading, 'HomeScreenViewModel', 'isLoading');
   }
@@ -56,6 +61,7 @@ class _$HomeScreenViewModel extends HomeScreenViewModel {
         selectedPassword == other.selectedPassword &&
         showDeleteButton == other.showDeleteButton &&
         showFab == other.showFab &&
+        showSettings == other.showSettings &&
         isLoading == other.isLoading;
   }
 
@@ -63,9 +69,13 @@ class _$HomeScreenViewModel extends HomeScreenViewModel {
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc($jc($jc(0, showEditButton.hashCode), selectedPassword.hashCode),
-                showDeleteButton.hashCode),
-            showFab.hashCode),
+            $jc(
+                $jc(
+                    $jc($jc(0, showEditButton.hashCode),
+                        selectedPassword.hashCode),
+                    showDeleteButton.hashCode),
+                showFab.hashCode),
+            showSettings.hashCode),
         isLoading.hashCode));
   }
 
@@ -76,6 +86,7 @@ class _$HomeScreenViewModel extends HomeScreenViewModel {
           ..add('selectedPassword', selectedPassword)
           ..add('showDeleteButton', showDeleteButton)
           ..add('showFab', showFab)
+          ..add('showSettings', showSettings)
           ..add('isLoading', isLoading))
         .toString();
   }
@@ -105,6 +116,10 @@ class HomeScreenViewModelBuilder
   bool get showFab => _$this._showFab;
   set showFab(bool showFab) => _$this._showFab = showFab;
 
+  bool _showSettings;
+  bool get showSettings => _$this._showSettings;
+  set showSettings(bool showSettings) => _$this._showSettings = showSettings;
+
   bool _isLoading;
   bool get isLoading => _$this._isLoading;
   set isLoading(bool isLoading) => _$this._isLoading = isLoading;
@@ -118,6 +133,7 @@ class HomeScreenViewModelBuilder
       _selectedPassword = $v.selectedPassword?.toBuilder();
       _showDeleteButton = $v.showDeleteButton;
       _showFab = $v.showFab;
+      _showSettings = $v.showSettings;
       _isLoading = $v.isLoading;
       _$v = null;
     }
@@ -148,6 +164,8 @@ class HomeScreenViewModelBuilder
                   showDeleteButton, 'HomeScreenViewModel', 'showDeleteButton'),
               showFab: BuiltValueNullFieldError.checkNotNull(
                   showFab, 'HomeScreenViewModel', 'showFab'),
+              showSettings: BuiltValueNullFieldError.checkNotNull(
+                  showSettings, 'HomeScreenViewModel', 'showSettings'),
               isLoading: BuiltValueNullFieldError.checkNotNull(
                   isLoading, 'HomeScreenViewModel', 'isLoading'));
     } catch (_) {

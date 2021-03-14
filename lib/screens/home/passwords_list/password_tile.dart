@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -79,6 +81,10 @@ class PasswordTile extends StatelessWidget {
         }
       },
       onLongPress: () {
+        if (Platform.isIOS) {
+          HapticFeedback.selectionClick();
+        }
+
         StoreProvider.of<AppState>(context)
             .dispatch(ToggleSelectPassword(password));
       },

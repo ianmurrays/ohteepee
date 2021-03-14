@@ -17,6 +17,8 @@ abstract class HomeScreenViewModel
 
   bool get showFab;
 
+  bool get showSettings;
+
   bool get isLoading;
 
   HomeScreenViewModel._();
@@ -36,6 +38,7 @@ abstract class HomeScreenViewModel
       ..showEditButton = selectedPassword != null
       ..showDeleteButton = store.state.selectedPasswordIds.length > 0
       ..showFab = store.state.selectedPasswordIds.length == 0
+      ..showSettings = store.state.selectedPasswordIds.length == 0
       ..isLoading = store.state.loadingPasswords);
   }
 }
