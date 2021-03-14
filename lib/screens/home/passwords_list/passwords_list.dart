@@ -28,6 +28,7 @@ class PasswordsListView extends StatelessWidget {
               isShown: vm.shownPasswords.contains(password),
               isSelected: vm.selectedPasswords.contains(password),
               anySelected: vm.selectedPasswords.length > 0,
+              copyToClipboard: vm.copyToClipboard,
             );
           },
           separatorBuilder: (_ctx, index) => const Divider(

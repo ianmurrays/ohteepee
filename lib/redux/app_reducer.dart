@@ -2,6 +2,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:redux/redux.dart';
 
 import '../models/password.dart';
+import './preferences/preferences_reducer.dart';
 import './app_actions.dart';
 import './app_state.dart';
 
@@ -13,6 +14,7 @@ final appReducer = combineReducers<AppState>([
   TypedReducer<AppState, OnCreatePassword>(_onCreatePassword),
   TypedReducer<AppState, OnUpdatePassword>(_onUpdatePassword),
   TypedReducer<AppState, OnDeletePassword>(_onDeletePassword),
+  ...preferencesReducer,
 ]);
 
 AppState _loadPasswords(AppState state, LoadPasswords _action) {

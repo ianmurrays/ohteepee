@@ -39,6 +39,6 @@ abstract class HomeScreenViewModel
       ..showDeleteButton = store.state.selectedPasswordIds.length > 0
       ..showFab = store.state.selectedPasswordIds.length == 0
       ..showSettings = store.state.selectedPasswordIds.length == 0
-      ..isLoading = store.state.loadingPasswords);
+      ..isLoading = store.state.loadingPasswords || store.state.startingUp);
   }
 }

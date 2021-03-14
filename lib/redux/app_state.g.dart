@@ -8,6 +8,8 @@ part of 'app_state.dart';
 
 class _$AppState extends AppState {
   @override
+  final bool startingUp;
+  @override
   final BuiltSet<int> selectedPasswordIds;
   @override
   final BuiltSet<int> shownPasswordIds;
@@ -15,16 +17,21 @@ class _$AppState extends AppState {
   final bool loadingPasswords;
   @override
   final BuiltList<Password> passwords;
+  @override
+  final PreferencesState preferences;
 
   factory _$AppState([void Function(AppStateBuilder) updates]) =>
       (new AppStateBuilder()..update(updates)).build();
 
   _$AppState._(
-      {this.selectedPasswordIds,
+      {this.startingUp,
+      this.selectedPasswordIds,
       this.shownPasswordIds,
       this.loadingPasswords,
-      this.passwords})
+      this.passwords,
+      this.preferences})
       : super._() {
+    BuiltValueNullFieldError.checkNotNull(startingUp, 'AppState', 'startingUp');
     BuiltValueNullFieldError.checkNotNull(
         selectedPasswordIds, 'AppState', 'selectedPasswordIds');
     BuiltValueNullFieldError.checkNotNull(
@@ -32,6 +39,8 @@ class _$AppState extends AppState {
     BuiltValueNullFieldError.checkNotNull(
         loadingPasswords, 'AppState', 'loadingPasswords');
     BuiltValueNullFieldError.checkNotNull(passwords, 'AppState', 'passwords');
+    BuiltValueNullFieldError.checkNotNull(
+        preferences, 'AppState', 'preferences');
   }
 
   @override
@@ -45,35 +54,47 @@ class _$AppState extends AppState {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is AppState &&
+        startingUp == other.startingUp &&
         selectedPasswordIds == other.selectedPasswordIds &&
         shownPasswordIds == other.shownPasswordIds &&
         loadingPasswords == other.loadingPasswords &&
-        passwords == other.passwords;
+        passwords == other.passwords &&
+        preferences == other.preferences;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc($jc(0, selectedPasswordIds.hashCode),
-                shownPasswordIds.hashCode),
-            loadingPasswords.hashCode),
-        passwords.hashCode));
+            $jc(
+                $jc(
+                    $jc($jc(0, startingUp.hashCode),
+                        selectedPasswordIds.hashCode),
+                    shownPasswordIds.hashCode),
+                loadingPasswords.hashCode),
+            passwords.hashCode),
+        preferences.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('AppState')
+          ..add('startingUp', startingUp)
           ..add('selectedPasswordIds', selectedPasswordIds)
           ..add('shownPasswordIds', shownPasswordIds)
           ..add('loadingPasswords', loadingPasswords)
-          ..add('passwords', passwords))
+          ..add('passwords', passwords)
+          ..add('preferences', preferences))
         .toString();
   }
 }
 
 class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
   _$AppState _$v;
+
+  bool _startingUp;
+  bool get startingUp => _$this._startingUp;
+  set startingUp(bool startingUp) => _$this._startingUp = startingUp;
 
   SetBuilder<int> _selectedPasswordIds;
   SetBuilder<int> get selectedPasswordIds =>
@@ -98,15 +119,23 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
   set passwords(ListBuilder<Password> passwords) =>
       _$this._passwords = passwords;
 
+  PreferencesStateBuilder _preferences;
+  PreferencesStateBuilder get preferences =>
+      _$this._preferences ??= new PreferencesStateBuilder();
+  set preferences(PreferencesStateBuilder preferences) =>
+      _$this._preferences = preferences;
+
   AppStateBuilder();
 
   AppStateBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
+      _startingUp = $v.startingUp;
       _selectedPasswordIds = $v.selectedPasswordIds.toBuilder();
       _shownPasswordIds = $v.shownPasswordIds.toBuilder();
       _loadingPasswords = $v.loadingPasswords;
       _passwords = $v.passwords.toBuilder();
+      _preferences = $v.preferences.toBuilder();
       _$v = null;
     }
     return this;
@@ -129,11 +158,14 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
     try {
       _$result = _$v ??
           new _$AppState._(
+              startingUp: BuiltValueNullFieldError.checkNotNull(
+                  startingUp, 'AppState', 'startingUp'),
               selectedPasswordIds: selectedPasswordIds.build(),
               shownPasswordIds: shownPasswordIds.build(),
               loadingPasswords: BuiltValueNullFieldError.checkNotNull(
                   loadingPasswords, 'AppState', 'loadingPasswords'),
-              passwords: passwords.build());
+              passwords: passwords.build(),
+              preferences: preferences.build());
     } catch (_) {
       String _$failedField;
       try {
@@ -144,6 +176,8 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
 
         _$failedField = 'passwords';
         passwords.build();
+        _$failedField = 'preferences';
+        preferences.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'AppState', _$failedField, e.toString());

@@ -7,6 +7,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import '../../redux/app_actions.dart';
 import '../../redux/app_state.dart';
 import '../../screens/edit_password.dart';
+import '../settings.dart';
 import './home_floating_action_button.dart';
 import './home_screen_view_model.dart';
 import './passwords_list/passwords_list.dart';
@@ -61,7 +62,12 @@ class HomeScreen extends StatelessWidget {
               if (vm.showSettings)
                 IconButton(
                   icon: const Icon(Icons.settings),
-                  onPressed: () => print('settings'),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_ctx) => Settings(),
+                      fullscreenDialog: true,
+                    ));
+                  },
                 ),
             ],
           ),

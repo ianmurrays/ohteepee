@@ -16,12 +16,14 @@ class PasswordTile extends StatelessWidget {
   final bool isSelected;
   final bool anySelected;
   final bool isShown;
+  final bool copyToClipboard;
 
   PasswordTile({
     @required this.password,
     @required this.isSelected,
     @required this.anySelected,
     @required this.isShown,
+    @required this.copyToClipboard,
   });
 
   Widget _trailingWidget(BuildContext context, Password password) {
@@ -57,6 +59,10 @@ class PasswordTile extends StatelessWidget {
   }
 
   void _copyToClipboard(BuildContext context, Password password) async {
+    if (!copyToClipboard) {
+      return;
+    }
+
     await Clipboard.setData(ClipboardData(text: await password.generateOTP()));
 
     ScaffoldMessenger.of(context).hideCurrentSnackBar();

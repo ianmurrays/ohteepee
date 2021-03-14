@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:ohteepee/redux/preferences/preferences_middleware.dart';
 import 'package:provider/provider.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import './redux/app_actions.dart';
+import './redux/preferences/preferences_actions.dart';
 import './redux/app_state.dart';
 import './redux/app_middleware.dart';
 import './redux/app_reducer.dart';
-import './screens/add_password.dart';
-import './screens/camera.dart';
-import './screens/edit_password.dart';
 import './screens/home/home_screen.dart';
 import './providers/global_timer.dart';
 import './storage/database.dart';
-import './models/password.dart';
 
 class OhTeePee extends StatefulWidget {
   @override
@@ -31,12 +29,15 @@ class _OhTeePeeState extends State<OhTeePee> {
     store = Store<AppState>(
       appReducer,
       initialState: AppState.init(),
-      middleware: createStoreMiddleware(db.passwordDao),
+      middleware: createStoreMiddleware(db.passwordDao)
+        ..addAll(createPreferencesMiddleware()),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    store..dispatch(LoadPreferences())..dispatch(LoadPasswords());
+
     return ChangeNotifierProvider(
       create: (_ctx) => GlobalTimer(),
       child: StoreProvider(
@@ -47,13 +48,7 @@ class _OhTeePeeState extends State<OhTeePee> {
           theme: _lightTheme(),
           darkTheme: _darkTheme(),
           themeMode: ThemeMode.system,
-          routes: {
-            '/': (_ctx) {
-              store.dispatch(LoadPasswords());
-
-              return HomeScreen();
-            },
-          },
+          home: HomeScreen(),
         ),
       ),
     );

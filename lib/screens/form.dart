@@ -158,7 +158,7 @@ class _PasswordFormState extends State<PasswordForm> {
         ),
       ),
       _margin(
-        child: SwitchListTile(
+        child: SwitchListTile.adaptive(
           title: const Text('Time-based'),
           value: timeBased,
           onChanged: (value) {
