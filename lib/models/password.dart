@@ -51,6 +51,7 @@ abstract class Password implements Built<Password, PasswordBuilder> {
       length: length,
       interval: period,
       algorithm: _algorithm,
+      isGoogle: true,
     );
   }
 
