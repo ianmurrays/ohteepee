@@ -32,7 +32,11 @@ abstract class Password implements Built<Password, PasswordBuilder> {
 
   factory Password([void Function(PasswordBuilder) updates]) = _$Password;
 
-  Future<String> generateOTP() {
+  bool get hasService {
+    return service != null && service.length > 0;
+  }
+
+  String generateOTP() {
     if (timeBased) {
       return _generateTOTP();
     } else {
@@ -40,7 +44,7 @@ abstract class Password implements Built<Password, PasswordBuilder> {
     }
   }
 
-  Future<String> _generateTOTP() async {
+  String _generateTOTP() {
     return otp.OTP.generateTOTPCodeString(
       secret,
       DateTime.now().millisecondsSinceEpoch,
@@ -50,13 +54,26 @@ abstract class Password implements Built<Password, PasswordBuilder> {
     );
   }
 
-  Future<String> _generateHOTP() async {
+  String _generateHOTP() {
     return otp.OTP.generateHOTPCodeString(
       secret,
       counter,
       length: length,
       algorithm: _algorithm,
     );
+  }
+
+  String get algorithmString {
+    switch (algorithm) {
+      case Algorithm.SHA1:
+        return 'SHA1';
+      case Algorithm.SHA256:
+        return 'SHA256';
+      case Algorithm.SHA512:
+        return 'SHA512';
+      default:
+        return 'SHA256';
+    }
   }
 
   otp.Algorithm get _algorithm {

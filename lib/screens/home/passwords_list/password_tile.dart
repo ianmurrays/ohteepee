@@ -127,16 +127,9 @@ class PasswordTile extends StatelessWidget {
       subtitle: isShown
           ? Consumer<GlobalTimer>(
               builder: (_ctx, timer, _child) {
-                return FutureBuilder(
-                  future: password.generateOTP(),
-                  builder: (_ctx, snapshot) {
-                    if (!snapshot.hasData) {
-                      return Text('');
-                    }
-
-                    return Text(snapshot.data,
-                        style: Theme.of(context).textTheme.headline5);
-                  },
+                return Text(
+                  password.generateOTP(),
+                  style: Theme.of(context).textTheme.headline5,
                 );
               },
             )
@@ -146,7 +139,7 @@ class PasswordTile extends StatelessWidget {
   }
 
   Widget _title(password) {
-    if (password.service != null && password.service.length > 0) {
+    if (password.hasService) {
       return Row(
         children: [
           Text(password.service),

@@ -6,7 +6,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../redux/app_actions.dart';
 import '../../redux/app_state.dart';
-import '../../screens/edit_password.dart';
+import '../edit_password.dart';
+import '../qr_screen/qr_screen.dart';
 import '../settings.dart';
 import './home_floating_action_button.dart';
 import './home_screen_view_model.dart';
@@ -41,6 +42,16 @@ class HomeScreen extends StatelessWidget {
                       builder: (_ctx) => EditPassword(
                         password: vm.selectedPassword,
                       ),
+                      fullscreenDialog: true,
+                    ));
+                  },
+                ),
+              if (vm.showQRButton)
+                IconButton(
+                  icon: Icon(Icons.qr_code),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_ctx) => QRScreen(),
                       fullscreenDialog: true,
                     ));
                   },
