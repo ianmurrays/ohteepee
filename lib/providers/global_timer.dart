@@ -7,6 +7,11 @@ class GlobalTimer with ChangeNotifier {
   GlobalTimer() {
     date = DateTime.now();
 
+    // Effort to have timer as close as possible to zero milliseconds
+    Timer(Duration(milliseconds: 1000 - date.millisecond), _startTimer);
+  }
+
+  void _startTimer() {
     Timer.periodic(Duration(seconds: 1), _tick);
   }
 
