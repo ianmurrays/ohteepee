@@ -128,7 +128,10 @@ class PasswordTile extends StatelessWidget {
           ? Consumer<GlobalTimer>(
               builder: (_ctx, timer, _child) {
                 return Text(
-                  password.generateOTP(),
+                  RegExp(r'.{1,3}')
+                      .allMatches(password.generateOTP())
+                      .map((e) => e.group(0))
+                      .join(' '),
                   style: Theme.of(context).textTheme.headline5,
                 );
               },
