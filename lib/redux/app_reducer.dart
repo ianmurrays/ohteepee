@@ -10,6 +10,7 @@ final appReducer = combineReducers<AppState>([
   TypedReducer<AppState, LoadPasswords>(_loadPasswords),
   TypedReducer<AppState, OnPasswordsLoaded>(_onPasswordsLoaded),
   TypedReducer<AppState, ToggleDisplayPassword>(_toggleDisplayPassword),
+  TypedReducer<AppState, ClearDisplayedPasswords>(_clearDisplayedPasswords),
   TypedReducer<AppState, ToggleSelectPassword>(_toggleSelectPassword),
   TypedReducer<AppState, OnCreatePassword>(_onCreatePassword),
   TypedReducer<AppState, OnUpdatePassword>(_onUpdatePassword),
@@ -35,6 +36,11 @@ AppState _toggleDisplayPassword(AppState state, ToggleDisplayPassword action) {
   return state.rebuild((b) => b
     ..shownPasswordIds.update((p) =>
         show ? p.add(action.password.id) : p.remove(action.password.id)));
+}
+
+AppState _clearDisplayedPasswords(
+    AppState state, ClearDisplayedPasswords action) {
+  return state.rebuild((b) => b..shownPasswordIds.update((s) => s.clear()));
 }
 
 AppState _toggleSelectPassword(AppState state, ToggleSelectPassword action) {

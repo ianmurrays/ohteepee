@@ -55,6 +55,8 @@ class ToggleDisplayPassword {
   ToggleDisplayPassword(this.password, [bool show]) : show = show ?? null;
 }
 
+class ClearDisplayedPasswords {}
+
 class ToggleSelectPassword {
   final Password password;
 

@@ -1,3 +1,4 @@
+import 'package:ohteepee/redux/app_actions.dart';
 import 'package:ohteepee/redux/preferences/preferences_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -63,8 +64,10 @@ void Function(
 
     await preferences.setBool('hidePasswords', value);
 
-    store.dispatch(OnPreferencesLoaded(
+    store
+      ..dispatch(OnPreferencesLoaded(
       hidePasswords: value,
-    ));
+    ))
+      ..dispatch(ClearDisplayedPasswords());
   };
 }
