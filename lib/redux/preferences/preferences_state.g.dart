@@ -9,14 +9,18 @@ part of 'preferences_state.dart';
 class _$PreferencesState extends PreferencesState {
   @override
   final bool copyToClipboard;
+  @override
+  final bool hidePasswords;
 
   factory _$PreferencesState(
           [void Function(PreferencesStateBuilder) updates]) =>
       (new PreferencesStateBuilder()..update(updates)).build();
 
-  _$PreferencesState._({this.copyToClipboard}) : super._() {
+  _$PreferencesState._({this.copyToClipboard, this.hidePasswords}) : super._() {
     BuiltValueNullFieldError.checkNotNull(
         copyToClipboard, 'PreferencesState', 'copyToClipboard');
+    BuiltValueNullFieldError.checkNotNull(
+        hidePasswords, 'PreferencesState', 'hidePasswords');
   }
 
   @override
@@ -31,18 +35,20 @@ class _$PreferencesState extends PreferencesState {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is PreferencesState &&
-        copyToClipboard == other.copyToClipboard;
+        copyToClipboard == other.copyToClipboard &&
+        hidePasswords == other.hidePasswords;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, copyToClipboard.hashCode));
+    return $jf($jc($jc(0, copyToClipboard.hashCode), hidePasswords.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('PreferencesState')
-          ..add('copyToClipboard', copyToClipboard))
+          ..add('copyToClipboard', copyToClipboard)
+          ..add('hidePasswords', hidePasswords))
         .toString();
   }
 }
@@ -56,12 +62,18 @@ class PreferencesStateBuilder
   set copyToClipboard(bool copyToClipboard) =>
       _$this._copyToClipboard = copyToClipboard;
 
+  bool _hidePasswords;
+  bool get hidePasswords => _$this._hidePasswords;
+  set hidePasswords(bool hidePasswords) =>
+      _$this._hidePasswords = hidePasswords;
+
   PreferencesStateBuilder();
 
   PreferencesStateBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _copyToClipboard = $v.copyToClipboard;
+      _hidePasswords = $v.hidePasswords;
       _$v = null;
     }
     return this;
@@ -83,7 +95,9 @@ class PreferencesStateBuilder
     final _$result = _$v ??
         new _$PreferencesState._(
             copyToClipboard: BuiltValueNullFieldError.checkNotNull(
-                copyToClipboard, 'PreferencesState', 'copyToClipboard'));
+                copyToClipboard, 'PreferencesState', 'copyToClipboard'),
+            hidePasswords: BuiltValueNullFieldError.checkNotNull(
+                hidePasswords, 'PreferencesState', 'hidePasswords'));
     replace(_$result);
     return _$result;
   }

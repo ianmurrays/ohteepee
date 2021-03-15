@@ -15,6 +15,8 @@ abstract class PasswordsListViewModel
 
   BuiltSet<Password> get shownPasswords;
 
+  bool get hidePasswords;
+
   bool get copyToClipboard;
 
   PasswordsListViewModel._();
@@ -31,6 +33,7 @@ abstract class PasswordsListViewModel
               store.state.passwords.firstWhere((element) => element.id == e)))
       ..shownPasswords = SetBuilder(store.state.shownPasswordIds.map((e) =>
           store.state.passwords.firstWhere((element) => element.id == e)))
+      ..hidePasswords = store.state.preferences.hidePasswords
       ..copyToClipboard = store.state.preferences.copyToClipboard);
   }
 }

@@ -14,6 +14,8 @@ class _$PasswordsListViewModel extends PasswordsListViewModel {
   @override
   final BuiltSet<Password> shownPasswords;
   @override
+  final bool hidePasswords;
+  @override
   final bool copyToClipboard;
 
   factory _$PasswordsListViewModel(
@@ -24,6 +26,7 @@ class _$PasswordsListViewModel extends PasswordsListViewModel {
       {this.passwords,
       this.selectedPasswords,
       this.shownPasswords,
+      this.hidePasswords,
       this.copyToClipboard})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
@@ -32,6 +35,8 @@ class _$PasswordsListViewModel extends PasswordsListViewModel {
         selectedPasswords, 'PasswordsListViewModel', 'selectedPasswords');
     BuiltValueNullFieldError.checkNotNull(
         shownPasswords, 'PasswordsListViewModel', 'shownPasswords');
+    BuiltValueNullFieldError.checkNotNull(
+        hidePasswords, 'PasswordsListViewModel', 'hidePasswords');
     BuiltValueNullFieldError.checkNotNull(
         copyToClipboard, 'PasswordsListViewModel', 'copyToClipboard');
   }
@@ -52,14 +57,17 @@ class _$PasswordsListViewModel extends PasswordsListViewModel {
         passwords == other.passwords &&
         selectedPasswords == other.selectedPasswords &&
         shownPasswords == other.shownPasswords &&
+        hidePasswords == other.hidePasswords &&
         copyToClipboard == other.copyToClipboard;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc(0, passwords.hashCode), selectedPasswords.hashCode),
-            shownPasswords.hashCode),
+        $jc(
+            $jc($jc($jc(0, passwords.hashCode), selectedPasswords.hashCode),
+                shownPasswords.hashCode),
+            hidePasswords.hashCode),
         copyToClipboard.hashCode));
   }
 
@@ -69,6 +77,7 @@ class _$PasswordsListViewModel extends PasswordsListViewModel {
           ..add('passwords', passwords)
           ..add('selectedPasswords', selectedPasswords)
           ..add('shownPasswords', shownPasswords)
+          ..add('hidePasswords', hidePasswords)
           ..add('copyToClipboard', copyToClipboard))
         .toString();
   }
@@ -96,6 +105,11 @@ class PasswordsListViewModelBuilder
   set shownPasswords(SetBuilder<Password> shownPasswords) =>
       _$this._shownPasswords = shownPasswords;
 
+  bool _hidePasswords;
+  bool get hidePasswords => _$this._hidePasswords;
+  set hidePasswords(bool hidePasswords) =>
+      _$this._hidePasswords = hidePasswords;
+
   bool _copyToClipboard;
   bool get copyToClipboard => _$this._copyToClipboard;
   set copyToClipboard(bool copyToClipboard) =>
@@ -109,6 +123,7 @@ class PasswordsListViewModelBuilder
       _passwords = $v.passwords.toBuilder();
       _selectedPasswords = $v.selectedPasswords.toBuilder();
       _shownPasswords = $v.shownPasswords.toBuilder();
+      _hidePasswords = $v.hidePasswords;
       _copyToClipboard = $v.copyToClipboard;
       _$v = null;
     }
@@ -135,6 +150,8 @@ class PasswordsListViewModelBuilder
               passwords: passwords.build(),
               selectedPasswords: selectedPasswords.build(),
               shownPasswords: shownPasswords.build(),
+              hidePasswords: BuiltValueNullFieldError.checkNotNull(
+                  hidePasswords, 'PasswordsListViewModel', 'hidePasswords'),
               copyToClipboard: BuiltValueNullFieldError.checkNotNull(
                   copyToClipboard,
                   'PasswordsListViewModel',

@@ -17,6 +17,7 @@ class PasswordTile extends StatelessWidget {
   final bool anySelected;
   final bool isShown;
   final bool copyToClipboard;
+  final bool isHideable;
 
   PasswordTile({
     @required this.password,
@@ -24,6 +25,7 @@ class PasswordTile extends StatelessWidget {
     @required this.anySelected,
     @required this.isShown,
     @required this.copyToClipboard,
+    @required this.isHideable,
   });
 
   Widget _trailingWidget(BuildContext context, Password password) {
@@ -78,12 +80,14 @@ class PasswordTile extends StatelessWidget {
           StoreProvider.of<AppState>(context)
               .dispatch(ToggleSelectPassword(password));
         } else {
-          if (!isShown) {
+          if (!isShown || !isHideable) {
             _copyToClipboard(context, password);
           }
 
-          StoreProvider.of<AppState>(context)
-              .dispatch(ToggleDisplayPassword(password));
+          if (isHideable) {
+            StoreProvider.of<AppState>(context)
+                .dispatch(ToggleDisplayPassword(password));
+          }
         }
       },
       onLongPress: () {

@@ -15,5 +15,7 @@ AppState _loadPreferences(AppState state, LoadPreferences action) {
 AppState _onPreferencesLoaded(AppState state, OnPreferencesLoaded action) {
   return state.rebuild((b) => b
     ..startingUp = false
-    ..preferences.update((p) => p..copyToClipboard = action.copyToClipboard));
+    ..preferences.update((p) => p
+      ..copyToClipboard = action.copyToClipboard ?? p.copyToClipboard
+      ..hidePasswords = action.hidePasswords ?? p.hidePasswords));
 }

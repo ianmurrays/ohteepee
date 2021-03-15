@@ -8,6 +8,7 @@ List<Middleware<AppState>> createPreferencesMiddleware() {
   return [
     TypedMiddleware<AppState, LoadPreferences>(_loadPreferences()),
     TypedMiddleware<AppState, ToggleCopyToClipboard>(_toggleCopyToClipboard()),
+    TypedMiddleware<AppState, ToggleHidePasswords>(_toggleHidePasswords()),
   ];
 }
 
@@ -20,9 +21,11 @@ void Function(
     final preferences = await SharedPreferences.getInstance();
 
     final copyToClipboard = preferences.getBool('copyToClipboard') ?? true;
+    final hidePasswords = preferences.getBool('hidePasswords') ?? true;
 
     store.dispatch(OnPreferencesLoaded(
       copyToClipboard: copyToClipboard,
+      hidePasswords: hidePasswords,
     ));
   };
 }
@@ -42,6 +45,26 @@ void Function(Store<AppState> store, ToggleCopyToClipboard action,
 
     store.dispatch(OnPreferencesLoaded(
       copyToClipboard: value,
+    ));
+  };
+}
+
+void Function(
+        Store<AppState> store, ToggleHidePasswords action, NextDispatcher next)
+    _toggleHidePasswords() {
+  return (store, action, next) async {
+    next(action);
+
+    final preferences = await SharedPreferences.getInstance();
+
+    final value = action.hidePasswords == null
+        ? !store.state.preferences.hidePasswords
+        : action.hidePasswords;
+
+    await preferences.setBool('hidePasswords', value);
+
+    store.dispatch(OnPreferencesLoaded(
+      hidePasswords: value,
     ));
   };
 }

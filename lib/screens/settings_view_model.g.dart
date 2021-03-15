@@ -9,14 +9,19 @@ part of 'settings_view_model.dart';
 class _$SettingsViewModel extends SettingsViewModel {
   @override
   final bool copyToClipboard;
+  @override
+  final bool hidePasswords;
 
   factory _$SettingsViewModel(
           [void Function(SettingsViewModelBuilder) updates]) =>
       (new SettingsViewModelBuilder()..update(updates)).build();
 
-  _$SettingsViewModel._({this.copyToClipboard}) : super._() {
+  _$SettingsViewModel._({this.copyToClipboard, this.hidePasswords})
+      : super._() {
     BuiltValueNullFieldError.checkNotNull(
         copyToClipboard, 'SettingsViewModel', 'copyToClipboard');
+    BuiltValueNullFieldError.checkNotNull(
+        hidePasswords, 'SettingsViewModel', 'hidePasswords');
   }
 
   @override
@@ -31,18 +36,20 @@ class _$SettingsViewModel extends SettingsViewModel {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is SettingsViewModel &&
-        copyToClipboard == other.copyToClipboard;
+        copyToClipboard == other.copyToClipboard &&
+        hidePasswords == other.hidePasswords;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, copyToClipboard.hashCode));
+    return $jf($jc($jc(0, copyToClipboard.hashCode), hidePasswords.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('SettingsViewModel')
-          ..add('copyToClipboard', copyToClipboard))
+          ..add('copyToClipboard', copyToClipboard)
+          ..add('hidePasswords', hidePasswords))
         .toString();
   }
 }
@@ -56,12 +63,18 @@ class SettingsViewModelBuilder
   set copyToClipboard(bool copyToClipboard) =>
       _$this._copyToClipboard = copyToClipboard;
 
+  bool _hidePasswords;
+  bool get hidePasswords => _$this._hidePasswords;
+  set hidePasswords(bool hidePasswords) =>
+      _$this._hidePasswords = hidePasswords;
+
   SettingsViewModelBuilder();
 
   SettingsViewModelBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _copyToClipboard = $v.copyToClipboard;
+      _hidePasswords = $v.hidePasswords;
       _$v = null;
     }
     return this;
@@ -83,7 +96,9 @@ class SettingsViewModelBuilder
     final _$result = _$v ??
         new _$SettingsViewModel._(
             copyToClipboard: BuiltValueNullFieldError.checkNotNull(
-                copyToClipboard, 'SettingsViewModel', 'copyToClipboard'));
+                copyToClipboard, 'SettingsViewModel', 'copyToClipboard'),
+            hidePasswords: BuiltValueNullFieldError.checkNotNull(
+                hidePasswords, 'SettingsViewModel', 'hidePasswords'));
     replace(_$result);
     return _$result;
   }

@@ -31,6 +31,15 @@ class Settings extends StatelessWidget {
                     },
                   ),
                   Divider(),
+                  SwitchListTile.adaptive(
+                    title: Text('Hide OTPs until tapped'),
+                    value: vm.hidePasswords,
+                    onChanged: (value) {
+                      StoreProvider.of<AppState>(context)
+                          .dispatch(ToggleHidePasswords(value));
+                    },
+                  ),
+                  Divider(),
                   ListTile(
                     title: const Text('About'),
                     onTap: () {

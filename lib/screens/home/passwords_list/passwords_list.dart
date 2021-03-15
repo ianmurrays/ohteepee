@@ -25,7 +25,9 @@ class PasswordsListView extends StatelessWidget {
 
             return PasswordTile(
               password: password,
-              isShown: vm.shownPasswords.contains(password),
+              isHideable: vm.hidePasswords,
+              isShown:
+                  !vm.hidePasswords || vm.shownPasswords.contains(password),
               isSelected: vm.selectedPasswords.contains(password),
               anySelected: vm.selectedPasswords.length > 0,
               copyToClipboard: vm.copyToClipboard,

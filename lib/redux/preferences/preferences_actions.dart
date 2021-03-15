@@ -1,11 +1,13 @@
-import 'package:flutter/foundation.dart';
-
 class LoadPreferences {}
 
 class OnPreferencesLoaded {
   final bool copyToClipboard;
+  final bool hidePasswords;
 
-  const OnPreferencesLoaded({@required this.copyToClipboard});
+  const OnPreferencesLoaded({
+    this.copyToClipboard,
+    this.hidePasswords,
+  });
 }
 
 class ToggleCopyToClipboard {
@@ -13,4 +15,11 @@ class ToggleCopyToClipboard {
 
   ToggleCopyToClipboard([bool copyToClipboard])
       : copyToClipboard = copyToClipboard ?? null;
+}
+
+class ToggleHidePasswords {
+  final bool hidePasswords;
+
+  ToggleHidePasswords([bool hidePasswords])
+      : hidePasswords = hidePasswords ?? null;
 }
